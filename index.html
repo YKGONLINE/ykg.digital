@@ -79,40 +79,46 @@
 
     header {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      gap: 0.5rem;
-      padding: calc(1.1rem + env(safe-area-inset-top, 0px)) 1.25rem 0;
+      padding: calc(1.25rem + env(safe-area-inset-top, 0px)) 1.25rem 0;
       max-width: 52rem;
       width: 100%;
       margin: 0 auto;
+    }
+
+    @media (min-width: 720px) {
+      header { justify-content: space-between; padding: 1.75rem 1.5rem 0; }
     }
 
     .wordmark {
       height: 14px;
       width: auto;
       opacity: 0.95;
-      flex-shrink: 0;
+    }
+
+    @media (min-width: 720px) {
+      .wordmark { height: 18px; }
     }
 
     .status {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      font-size: 0.6rem;
-      letter-spacing: 0.04em;
+      gap: 0.4rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--muted);
       white-space: nowrap;
-      flex-shrink: 0;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
     }
 
-    /* CSS uppercase turns "Yapım" → "YAPIM" (TR ı→I) — intentional short label */
-    .status .full { display: none; }
-    .status .short { display: inline; }
-
-    @media (max-width: 340px) {
-      .status .short { display: none; } /* sadece yeşil nokta */
+    /* Header status only desktop; mobile badge lives in main */
+    header .status { display: none; }
+    @media (min-width: 720px) {
+      header .status { display: inline-flex; letter-spacing: 0.14em; font-size: 0.68rem; border: 0; padding: 0; }
     }
 
     .status i {
@@ -148,23 +154,20 @@
       user-select: none;
     }
 
-    @media (min-width: 480px) {
-      .status {
-        font-size: 0.68rem;
-        letter-spacing: 0.1em;
-      }
-      .status .full { display: inline; }
-      .status .short { display: none; }
-      .mark { width: min(180px, 44vw); }
-      header { padding: 1.5rem 1.35rem 0; }
-      main { gap: 1.2rem; padding: 1.75rem 1.5rem 2rem; }
+    .status-mobile {
+      display: inline-flex;
+      margin-bottom: 0.15rem;
     }
 
     @media (min-width: 720px) {
-      .wordmark { height: 18px; }
-      .status { letter-spacing: 0.14em; }
+      .status-mobile { display: none; }
       .mark { width: min(200px, 48vw); margin-bottom: 0.35rem; }
       main { gap: 1.35rem; padding: 2rem 1.5rem 2.5rem; }
+    }
+
+    @media (min-width: 480px) and (max-width: 719px) {
+      .mark { width: min(180px, 44vw); }
+      main { gap: 1.2rem; padding: 1.75rem 1.5rem 2rem; }
     }
 
     .brand-row {
@@ -266,14 +269,12 @@
   <div class="shell">
     <header>
       <img class="wordmark" src="assets/logo-white.png" alt="YKG" width="90" height="25" />
-      <p class="status">
-        <i aria-hidden="true"></i>
-        <span class="short">Yapım</span>
-        <span class="full">Yapım aşamasında</span>
-      </p>
+      <p class="status"><i aria-hidden="true"></i> Yapım aşamasında</p>
     </header>
 
     <main>
+      <p class="status status-mobile"><i aria-hidden="true"></i> Yapım aşamasında</p>
+
       <img
         class="mark"
         src="assets/mark-deer.png"
