@@ -4,33 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="YKG Digital — yapım aşamasında. İletişim: ykg@ykg.digital" />
-  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="theme-color" content="#050505" />
   <meta property="og:title" content="YKG Digital" />
   <meta property="og:description" content="Yapım aşamasında. Yakında burada." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ykg.digital/" />
-  <meta property="og:image" content="https://ykg.digital/assets/logo-white.png" />
+  <meta property="og:image" content="https://ykg.digital/assets/mark-deer.png" />
+  <meta name="twitter:card" content="summary" />
   <title>YKG Digital — Yapım Aşamasında</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
-  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <style>
     :root {
-      --bg: #0a0a0a;
-      --fg: #f5f5f5;
-      --muted: #9a9a9a;
-      --line: rgba(255, 255, 255, 0.12);
-      --accent: #ffffff;
+      --bg: #050505;
+      --fg: #f2f2f2;
+      --muted: #8a8a8a;
+      --soft: #bdbdbd;
+      --line: rgba(255, 255, 255, 0.1);
+      --glow: rgba(255, 255, 255, 0.045);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      height: 100%;
-    }
+    html, body { height: 100%; }
 
     body {
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -43,160 +39,235 @@
       text-rendering: optimizeLegibility;
     }
 
-    /* Soft radial glow — no images, no JS */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
-        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(255, 255, 255, 0.03), transparent 55%);
+        radial-gradient(ellipse 80% 55% at 50% -10%, var(--glow), transparent 55%),
+        radial-gradient(ellipse 45% 35% at 50% 110%, rgba(255,255,255,0.03), transparent 50%);
       z-index: 0;
     }
 
-    .wrap {
+    /* subtle frame */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 12px;
+      border: 1px solid var(--line);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @media (min-width: 720px) {
+      body::after { inset: 20px; }
+    }
+
+    .shell {
       position: relative;
       z-index: 1;
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-height: 100%;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      padding: 2.5rem 1.25rem 2rem;
-      text-align: center;
-      gap: 1.75rem;
-      max-width: 40rem;
-      margin: 0 auto;
+      padding: 1.75rem 1.5rem 0;
+      max-width: 52rem;
       width: 100%;
+      margin: 0 auto;
     }
 
-    .logo {
-      width: min(220px, 55vw);
-      height: auto;
-      display: block;
-      user-select: none;
+    .wordmark {
+      height: 18px;
+      width: auto;
+      opacity: 0.95;
     }
 
-    .badge {
+    .status {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.85rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
+      gap: 0.45rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
     }
 
-    .badge::before {
-      content: "";
-      width: 0.45rem;
-      height: 0.45rem;
+    .status i {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: #7dffa3;
-      box-shadow: 0 0 0 3px rgba(125, 255, 163, 0.15);
-      animation: pulse 2.4s ease-in-out infinite;
+      background: #8dffb0;
+      box-shadow: 0 0 0 3px rgba(141, 255, 176, 0.12);
+      animation: pulse 2.6s ease-in-out infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.45; }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+      gap: 1.35rem;
+      max-width: 36rem;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .mark {
+      width: min(200px, 48vw);
+      height: auto;
+      display: block;
+      margin-bottom: 0.35rem;
+      filter: drop-shadow(0 12px 40px rgba(255,255,255,0.06));
+      user-select: none;
+    }
+
+    .brand-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .ykg {
+      height: clamp(28px, 6vw, 36px);
+      width: auto;
+    }
+
+    .digital {
+      height: 11px;
+      width: auto;
+      opacity: 0.75;
+      letter-spacing: 0.35em;
     }
 
     h1 {
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      margin-top: 0.35rem;
+      font-size: clamp(1.45rem, 4.2vw, 1.9rem);
+      font-weight: 560;
+      letter-spacing: -0.025em;
       line-height: 1.25;
     }
 
     .lead {
       color: var(--muted);
-      font-size: clamp(0.95rem, 2.2vw, 1.05rem);
-      line-height: 1.6;
-      max-width: 28rem;
+      font-size: clamp(0.95rem, 2.1vw, 1.05rem);
+      line-height: 1.65;
+      max-width: 26rem;
     }
 
-    .contact {
-      margin-top: 0.5rem;
-      display: flex;
-      flex-direction: column;
+    .cta {
+      margin-top: 0.75rem;
+      display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
-    }
-
-    .contact a {
-      color: var(--accent);
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.85rem 1.25rem;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      color: var(--fg);
       text-decoration: none;
-      font-size: 1rem;
-      letter-spacing: 0.01em;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-      padding-bottom: 2px;
-      transition: border-color 0.2s ease, opacity 0.2s ease;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
 
-    .contact a:hover,
-    .contact a:focus-visible {
-      border-bottom-color: #fff;
-      opacity: 0.92;
+    .cta:hover,
+    .cta:focus-visible {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.45);
       outline: none;
+      transform: translateY(-1px);
     }
 
-    .contact span {
-      font-size: 0.8rem;
+    .cta svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.85;
+    }
+
+    .meta {
+      font-size: 0.78rem;
       color: var(--muted);
+      letter-spacing: 0.04em;
     }
 
     footer {
-      position: relative;
-      z-index: 1;
-      padding: 1.25rem;
+      padding: 0 1.5rem 1.75rem;
       text-align: center;
       color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.04em;
-      border-top: 1px solid var(--line);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+    }
+
+    footer span { color: var(--soft); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .badge::before {
-        animation: none;
-      }
+      .status i { animation: none; }
+      .cta { transition: none; }
+      .cta:hover { transform: none; }
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <img
-      class="logo"
-      src="assets/logo-white.png"
-      width="220"
-      height="220"
-      alt="YKG Digital"
-      decoding="async"
-    />
+  <div class="shell">
+    <header>
+      <img class="wordmark" src="assets/logo-white.png" alt="YKG" width="90" height="25" />
+      <p class="status"><i aria-hidden="true"></i> Yapım aşamasında</p>
+    </header>
 
-    <p class="badge">Yapım aşamasında</p>
+    <main>
+      <img
+        class="mark"
+        src="assets/mark-deer.png"
+        width="200"
+        height="232"
+        alt="YKG Digital markası"
+        decoding="async"
+        fetchpriority="high"
+      />
 
-    <h1>Yakında burada.</h1>
+      <div class="brand-row">
+        <img class="ykg" src="assets/logo-white.png" alt="YKG" width="160" height="44" />
+        <img class="digital" src="assets/logo-digital-white.png" alt="Digital" width="120" height="11" />
+      </div>
 
-    <p class="lead">
-      YKG Digital sitesi üzerinde çalışıyoruz.
-      Şimdilik bize e-posta ile ulaşabilirsiniz.
-    </p>
+      <h1>Yakında burada.</h1>
 
-    <div class="contact">
-      <a href="mailto:ykg@ykg.digital">ykg@ykg.digital</a>
-      <span>ykg.digital · 2016–2026</span>
-    </div>
-  </main>
+      <p class="lead">
+        YKG Digital sitesini yeniliyoruz.
+        Şimdilik bize e-posta ile ulaşabilirsiniz.
+      </p>
 
-  <footer>
-    © <span id="y"></span> YKG Digital
-  </footer>
+      <a class="cta" href="mailto:ykg@ykg.digital">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M4 6.5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"/>
+          <path d="m4 7.5 8 6 8-6"/>
+        </svg>
+        ykg@ykg.digital
+      </a>
+
+      <p class="meta">ykg.digital · 2016–2026</p>
+    </main>
+
+    <footer>
+      © <span id="y">2026</span> YKG Digital · Tüm hakları saklıdır
+    </footer>
+  </div>
 
   <script>
     document.getElementById("y").textContent = String(new Date().getFullYear());
