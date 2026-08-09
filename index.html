@@ -105,13 +105,15 @@
       color: var(--muted);
       white-space: nowrap;
       flex-shrink: 0;
-      max-width: 55%;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
+    /* CSS uppercase turns "Yapım" → "YAPIM" (TR ı→I) — intentional short label */
     .status .full { display: none; }
     .status .short { display: inline; }
+
+    @media (max-width: 340px) {
+      .status .short { display: none; } /* sadece yeşil nokta */
+    }
 
     .status i {
       width: 6px;
