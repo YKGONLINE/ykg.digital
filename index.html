@@ -3,25 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="YKG Digital — yapım aşamasında. İletişim: ykg@ykg.digital" />
+  <meta name="description" content="YKG Digital — başka bir şey kuruyoruz. İletişim: ykg@ykg.digital" />
   <meta name="theme-color" content="#050505" />
   <meta property="og:title" content="YKG Digital" />
-  <meta property="og:description" content="Yapım aşamasında. Yakında burada." />
+  <meta property="og:description" content="Sıradan bir yenileme değil. Başka bir şey kuruyoruz." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ykg.digital/" />
   <meta property="og:image" content="https://ykg.digital/assets/mark-deer.png" />
-  <meta name="twitter:card" content="summary" />
-  <title>YKG Digital — Yapım Aşamasında</title>
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>YKG Digital</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <style>
     :root {
       --bg: #050505;
-      --fg: #f2f2f2;
-      --muted: #8a8a8a;
-      --soft: #bdbdbd;
-      --line: rgba(255, 255, 255, 0.1);
-      --glow: rgba(255, 255, 255, 0.045);
+      --fg: #f4f4f4;
+      --muted: #8c8c8c;
+      --soft: #c8c8c8;
+      --line: rgba(255, 255, 255, 0.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,91 +32,95 @@
       background: var(--bg);
       color: var(--fg);
       min-height: 100%;
-      display: flex;
-      flex-direction: column;
+      min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% -10%, var(--glow), transparent 55%),
-        radial-gradient(ellipse 45% 35% at 50% 110%, rgba(255,255,255,0.03), transparent 50%);
-      z-index: 0;
-    }
-
-    /* subtle frame */
+    /* tiny frame */
     body::after {
       content: "";
       position: fixed;
-      inset: max(10px, env(safe-area-inset-top, 0px))
-             max(10px, env(safe-area-inset-right, 0px))
-             max(10px, env(safe-area-inset-bottom, 0px))
-             max(10px, env(safe-area-inset-left, 0px));
+      inset: 5px;
       border: 1px solid var(--line);
       pointer-events: none;
-      z-index: 2;
+      z-index: 5;
     }
 
     @media (min-width: 720px) {
-      body::after { inset: 20px; }
+      body::after { inset: 8px; }
     }
 
-    .shell {
+    .stage {
       position: relative;
-      z-index: 1;
-      flex: 1;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
-      min-height: 100%;
-      min-height: 100dvh;
+      overflow: hidden;
     }
 
-    header {
+    .grow {
+      flex: 1;
+      min-height: 42vh;
+    }
+
+    /* Huge deer — face dominates ~half the viewport */
+    .beast {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -55%);
+      width: min(160vw, 920px);
+      height: auto;
+      max-width: none;
+      opacity: 0.92;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.55));
+      z-index: 1;
+    }
+
+    @media (min-width: 720px) {
+      .beast {
+        width: min(95vw, 880px);
+        top: 40%;
+        transform: translate(-50%, -52%);
+      }
+    }
+
+    /* soft fade so text stays readable over antlers/body */
+    .veil {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(5,5,5,0.15) 0%, rgba(5,5,5,0.05) 35%, rgba(5,5,5,0.55) 62%, rgba(5,5,5,0.96) 82%, #050505 100%),
+        radial-gradient(ellipse 70% 50% at 50% 28%, transparent 30%, rgba(5,5,5,0.35) 100%);
+    }
+
+    .top {
+      position: relative;
+      z-index: 3;
+      padding: calc(14px + env(safe-area-inset-top, 0px)) 18px 0;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: calc(1.25rem + env(safe-area-inset-top, 0px)) 1.25rem 0;
-      max-width: 52rem;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    @media (min-width: 720px) {
-      header { justify-content: space-between; padding: 1.75rem 1.5rem 0; }
-    }
-
-    .wordmark {
-      height: 14px;
-      width: auto;
-      opacity: 0.95;
-    }
-
-    @media (min-width: 720px) {
-      .wordmark { height: 18px; }
     }
 
     .status {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
       color: var(--muted);
       white-space: nowrap;
-      padding: 0.35rem 0.7rem;
+      padding: 0.32rem 0.65rem;
       border: 1px solid var(--line);
       border-radius: 999px;
-    }
-
-    /* Header status only desktop; mobile badge lives in main */
-    header .status { display: none; }
-    @media (min-width: 720px) {
-      header .status { display: inline-flex; letter-spacing: 0.14em; font-size: 0.68rem; border: 0; padding: 0; }
+      background: rgba(5, 5, 5, 0.35);
+      backdrop-filter: blur(6px);
     }
 
     .status i {
@@ -130,124 +133,97 @@
       flex-shrink: 0;
     }
 
-    main {
-      flex: 1;
+    .panel {
+      position: relative;
+      z-index: 3;
+      padding: 0 1.35rem calc(1.35rem + env(safe-area-inset-bottom, 0px));
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
-      padding: 1.25rem 1.25rem 1.75rem;
-      gap: 1rem;
-      max-width: 36rem;
+      gap: 0.85rem;
+      max-width: 34rem;
       margin: 0 auto;
       width: 100%;
-    }
-
-    .mark {
-      width: min(148px, 42vw);
-      height: auto;
-      display: block;
-      margin-bottom: 0.15rem;
-      filter: drop-shadow(0 12px 40px rgba(255,255,255,0.06));
-      user-select: none;
-    }
-
-    .status-mobile {
-      display: inline-flex;
-      margin-bottom: 0.15rem;
-    }
-
-    @media (min-width: 720px) {
-      .status-mobile { display: none; }
-      .mark { width: min(200px, 48vw); margin-bottom: 0.35rem; }
-      main { gap: 1.35rem; padding: 2rem 1.5rem 2.5rem; }
-    }
-
-    @media (min-width: 480px) and (max-width: 719px) {
-      .mark { width: min(180px, 44vw); }
-      main { gap: 1.2rem; padding: 1.75rem 1.5rem 2rem; }
     }
 
     .brand-row {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.45rem;
+      margin-bottom: 0.15rem;
     }
 
     .ykg {
-      height: clamp(28px, 6vw, 36px);
+      height: clamp(26px, 5.5vw, 34px);
       width: auto;
     }
 
     .digital {
-      height: 11px;
+      height: 10px;
       width: auto;
-      opacity: 0.75;
-      letter-spacing: 0.35em;
+      opacity: 0.72;
     }
 
     h1 {
-      margin-top: 0.35rem;
-      font-size: clamp(1.45rem, 4.2vw, 1.9rem);
+      font-size: clamp(1.55rem, 5.2vw, 2.15rem);
       font-weight: 560;
-      letter-spacing: -0.025em;
-      line-height: 1.25;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      text-wrap: balance;
     }
 
     .lead {
       color: var(--muted);
-      font-size: clamp(0.92rem, 2.1vw, 1.05rem);
+      font-size: clamp(0.95rem, 2.4vw, 1.08rem);
       line-height: 1.65;
-      max-width: 26rem;
-      padding: 0 0.25rem;
+      max-width: 28rem;
       text-wrap: balance;
+    }
+
+    .lead strong {
+      color: var(--soft);
+      font-weight: 500;
     }
 
     .cta {
       margin-top: 0.35rem;
-      min-height: 44px; /* parmak dostu dokunma alanı */
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.55rem;
-      padding: 0.85rem 1.25rem;
-      border: 1px solid rgba(255,255,255,0.22);
+      padding: 0.8rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 999px;
       color: var(--fg);
       text-decoration: none;
       font-size: 0.95rem;
       letter-spacing: 0.02em;
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
     .cta:hover,
     .cta:focus-visible {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.45);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.4);
       outline: none;
-      transform: translateY(-1px);
-    }
-
-    .cta svg {
-      width: 16px;
-      height: 16px;
-      opacity: 0.85;
     }
 
     .meta {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--muted);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
     }
 
     footer {
-      padding: 0 1.5rem 1.75rem;
+      position: relative;
+      z-index: 3;
+      padding: 0 1rem 0.85rem;
       text-align: center;
       color: var(--muted);
-      font-size: 0.72rem;
-      letter-spacing: 0.06em;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
     }
 
     footer span { color: var(--soft); }
@@ -260,56 +236,51 @@
     @media (prefers-reduced-motion: reduce) {
       .status i { animation: none; }
       .cta { transition: none; }
-      .cta:hover { transform: none; }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header>
-      <img class="wordmark" src="assets/logo-white.png" alt="YKG" width="90" height="25" />
+  <div class="stage">
+    <img
+      class="beast"
+      src="assets/mark-deer.png"
+      width="1295"
+      height="1500"
+      alt=""
+      decoding="async"
+      fetchpriority="high"
+      aria-hidden="true"
+    />
+    <div class="veil" aria-hidden="true"></div>
+
+    <div class="top">
       <p class="status"><i aria-hidden="true"></i> YAPIM AŞAMASINDA</p>
-    </header>
+    </div>
 
-    <main>
-      <p class="status status-mobile"><i aria-hidden="true"></i> YAPIM AŞAMASINDA</p>
+    <div class="grow" aria-hidden="true"></div>
 
-      <img
-        class="mark"
-        src="assets/mark-deer.png"
-        width="200"
-        height="232"
-        alt="YKG Digital markası"
-        decoding="async"
-        fetchpriority="high"
-      />
-
+    <div class="panel">
       <div class="brand-row">
         <img class="ykg" src="assets/logo-white.png" alt="YKG" width="160" height="44" />
         <img class="digital" src="assets/logo-digital-white.png" alt="Digital" width="120" height="11" />
       </div>
 
-      <h1>Yakında burada.</h1>
+      <h1>Sıradan bir yenileme değil.</h1>
 
       <p class="lead">
-        YKG Digital sitesini yeniliyoruz.
-        Şimdilik bize e-posta ile ulaşabilirsiniz.
+        2016’dan beri iletişim yapıyoruz.
+        Artık <strong>insan ile zekâyı aynı masaya oturtan</strong> ürünler ve sessiz sistemler kuruyoruz.
+        Kapı kapalı değil — sadece henüz vitrin yok.
       </p>
 
-      <a class="cta" href="mailto:ykg@ykg.digital">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-          <path d="M4 6.5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"/>
-          <path d="m4 7.5 8 6 8-6"/>
-        </svg>
-        ykg@ykg.digital
-      </a>
+      <a class="cta" href="mailto:ykg@ykg.digital">ykg@ykg.digital</a>
 
       <p class="meta">ykg.digital · 2016–2026</p>
-    </main>
 
-    <footer>
-      © <span id="y">2026</span> YKG Digital · Tüm hakları saklıdır
-    </footer>
+      <footer>
+        © <span id="y">2026</span> YKG Digital
+      </footer>
+    </div>
   </div>
 
   <script>
