@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="YKG Digital — yapım aşamasında. İletişim: ykg@ykg.digital" />
+  <meta name="description" content="YKG Destek — 7/24 AI e-ticaret müşteri destek + iade/sipariş asistanı. Widget, WhatsApp, Instagram, Trendyol & Hepsiburada Q&A. İletişim: ykg@ykg.digital" />
   <meta name="theme-color" content="#050505" />
   <meta name="facebook-domain-verification" content="fxlt9y253zdtoo53sxz4uhuq4bglka" />
-  <meta property="og:title" content="YKG Digital" />
-  <meta property="og:description" content="Yapım aşamasında. Yakında burada." />
+  <meta property="og:title" content="YKG Destek — AI e-ticaret müşteri destek" />
+  <meta property="og:description" content="7/24 AI müşteri destek + iade/sipariş asistanı. Site widget, WhatsApp, IG, Trendyol & Hepsiburada Q&A." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ykg.digital/" />
   <meta property="og:image" content="https://ykg.digital/assets/mark-deer.png" />
   <meta name="twitter:card" content="summary" />
-  <title>YKG Digital — Yapım Aşamasında</title>
+  <title>YKG Destek — AI e-ticaret müşteri destek | YKG Digital</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <style>
@@ -51,7 +51,6 @@
       z-index: 0;
     }
 
-    /* subtle frame */
     body::after {
       content: "";
       position: fixed;
@@ -115,7 +114,6 @@
       border-radius: 999px;
     }
 
-    /* Header status only desktop; mobile badge lives in main */
     header .status { display: none; }
     @media (min-width: 720px) {
       header .status { display: inline-flex; letter-spacing: 0.14em; font-size: 0.68rem; border: 0; padding: 0; }
@@ -201,14 +199,21 @@
       color: var(--muted);
       font-size: clamp(0.92rem, 2.1vw, 1.05rem);
       line-height: 1.65;
-      max-width: 26rem;
+      max-width: 28rem;
       padding: 0 0.25rem;
       text-wrap: balance;
     }
 
-    .cta {
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
       margin-top: 0.35rem;
-      min-height: 44px; /* parmak dostu dokunma alanı */
+    }
+
+    .cta {
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -223,12 +228,32 @@
       transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
 
+    .cta-primary {
+      background: var(--fg);
+      color: var(--bg);
+      border-color: var(--fg);
+      font-weight: 560;
+    }
+
+    .cta-primary:hover,
+    .cta-primary:focus-visible {
+      background: #fff;
+      border-color: #fff;
+      outline: none;
+      transform: translateY(-1px);
+    }
+
     .cta:hover,
     .cta:focus-visible {
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.45);
       outline: none;
       transform: translateY(-1px);
+    }
+
+    .cta-primary:hover,
+    .cta-primary:focus-visible {
+      background: #fff;
     }
 
     .cta svg {
@@ -269,11 +294,11 @@
   <div class="shell">
     <header>
       <img class="wordmark" src="assets/logo-white.png" alt="YKG" width="90" height="25" />
-      <p class="status"><i aria-hidden="true"></i> YAPIM AŞAMASINDA</p>
+      <p class="status"><i aria-hidden="true"></i> YKG DESTEK CANLI</p>
     </header>
 
     <main>
-      <p class="status status-mobile"><i aria-hidden="true"></i> YAPIM AŞAMASINDA</p>
+      <p class="status status-mobile"><i aria-hidden="true"></i> YKG DESTEK CANLI</p>
 
       <img
         class="mark"
@@ -290,20 +315,25 @@
         <img class="digital" src="assets/logo-digital-white.png" alt="Digital" width="120" height="11" />
       </div>
 
-      <h1>Yakında burada.</h1>
+      <h1>YKG Destek</h1>
 
       <p class="lead">
-        YKG Digital sitesini yeniliyoruz.
-        Şimdilik bize e-posta ile ulaşabilirsiniz.
+        7/24 AI e-ticaret müşteri destek + iade/sipariş asistanı.
+        Site widget, WhatsApp, Instagram, Trendyol ve Hepsiburada Q&amp;A.
       </p>
 
-      <a class="cta" href="mailto:ykg@ykg.digital">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-          <path d="M4 6.5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"/>
-          <path d="m4 7.5 8 6 8-6"/>
-        </svg>
-        ykg@ykg.digital
-      </a>
+      <div class="cta-group">
+        <a class="cta cta-primary" href="/urunler/ykg-destek/">
+          Ürünü incele
+        </a>
+        <a class="cta" href="mailto:ykg@ykg.digital?subject=YKG%20Destek%20Demo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M4 6.5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"/>
+            <path d="m4 7.5 8 6 8-6"/>
+          </svg>
+          Demo iste
+        </a>
+      </div>
 
       <p class="meta"><a href="/atlas-gizlilik.html" style="color:inherit">Atlas Gizlilik Politikası</a> · ykg.digital · 2016–2026</p>
     </main>
