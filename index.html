@@ -2,17 +2,17 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="YKG Digital — yapım aşamasında. İletişim: ykg@ykg.digital" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="YKG Digital — hiçlikten bite. Fikirleri dijital ürünlere dönüştürüyoruz. İletişim: ykg@ykg.digital" />
   <meta name="theme-color" content="#050505" />
   <meta name="facebook-domain-verification" content="fxlt9y253zdtoo53sxz4uhuq4bglka" />
-  <meta property="og:title" content="YKG Digital" />
-  <meta property="og:description" content="Yapım aşamasında. Yakında burada." />
+  <meta property="og:title" content="YKG Digital — Hiçlikten bite" />
+  <meta property="og:description" content="Hiçlik, Büyük Patlama, atom, DNA, bit. Fikirleri dijital ürünlere dönüştürüyoruz." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ykg.digital/" />
   <meta property="og:image" content="https://ykg.digital/assets/mark-deer.png" />
   <meta name="twitter:card" content="summary" />
-  <title>YKG Digital — Yapım Aşamasında</title>
+  <title>YKG Digital — Hiçlikten Bite</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <style>
@@ -21,300 +21,801 @@
       --fg: #f2f2f2;
       --muted: #8a8a8a;
       --soft: #bdbdbd;
-      --line: rgba(255, 255, 255, 0.1);
-      --glow: rgba(255, 255, 255, 0.045);
+      --line: rgba(255, 255, 255, 0.12);
+      --accent: #ffffff;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body { height: 100%; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--fg);
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
+    #cosmos {
       position: fixed;
       inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% -10%, var(--glow), transparent 55%),
-        radial-gradient(ellipse 45% 35% at 50% 110%, rgba(255,255,255,0.03), transparent 50%);
-      z-index: 0;
-    }
-
-    /* subtle frame */
-    body::after {
-      content: "";
-      position: fixed;
-      inset: max(10px, env(safe-area-inset-top, 0px))
-             max(10px, env(safe-area-inset-right, 0px))
-             max(10px, env(safe-area-inset-bottom, 0px))
-             max(10px, env(safe-area-inset-left, 0px));
-      border: 1px solid var(--line);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    @media (min-width: 720px) {
-      body::after { inset: 20px; }
-    }
-
-    .shell {
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-      min-height: 100dvh;
-    }
-
-    header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: calc(1.25rem + env(safe-area-inset-top, 0px)) 1.25rem 0;
-      max-width: 52rem;
       width: 100%;
-      margin: 0 auto;
-    }
-
-    @media (min-width: 720px) {
-      header { justify-content: space-between; padding: 1.75rem 1.5rem 0; }
-    }
-
-    .wordmark {
-      height: 14px;
-      width: auto;
-      opacity: 0.95;
-    }
-
-    @media (min-width: 720px) {
-      .wordmark { height: 18px; }
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      white-space: nowrap;
-      padding: 0.35rem 0.7rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-    }
-
-    /* Header status only desktop; mobile badge lives in main */
-    header .status { display: none; }
-    @media (min-width: 720px) {
-      header .status { display: inline-flex; letter-spacing: 0.14em; font-size: 0.68rem; border: 0; padding: 0; }
-    }
-
-    .status i {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #8dffb0;
-      box-shadow: 0 0 0 3px rgba(141, 255, 176, 0.12);
-      animation: pulse 2.6s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 1.25rem 1.25rem 1.75rem;
-      gap: 1rem;
-      max-width: 36rem;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .mark {
-      width: min(148px, 42vw);
-      height: auto;
+      height: 100%;
       display: block;
-      margin-bottom: 0.15rem;
-      filter: drop-shadow(0 12px 40px rgba(255,255,255,0.06));
-      user-select: none;
+      z-index: 0;
+      pointer-events: none;
     }
 
-    .status-mobile {
-      display: inline-flex;
-      margin-bottom: 0.15rem;
+    /* keeps text readable over the photos on wide screens */
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      display: none;
+      background: linear-gradient(90deg, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.55) 32%, rgba(5,5,5,0) 55%);
     }
+    @media (min-width: 900px) { .veil { display: block; } }
+
+    /* ---------- header ---------- */
+    .top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: calc(1rem + env(safe-area-inset-top, 0px)) 1.25rem 1rem;
+      pointer-events: none;
+    }
+    .top > * { pointer-events: auto; }
+    .top img { height: 14px; width: auto; display: block; opacity: 0.95; }
+    .top a.mail {
+      color: var(--soft);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding: 0.6rem 0;
+    }
+    .top a.mail:hover, .top a.mail:focus-visible { color: var(--fg); }
 
     @media (min-width: 720px) {
-      .status-mobile { display: none; }
-      .mark { width: min(200px, 48vw); margin-bottom: 0.35rem; }
-      main { gap: 1.35rem; padding: 2rem 1.5rem 2.5rem; }
+      .top { padding: 1.75rem 2.25rem; }
+      .top img { height: 18px; }
     }
 
-    @media (min-width: 480px) and (max-width: 719px) {
-      .mark { width: min(180px, 44vw); }
-      main { gap: 1.2rem; padding: 1.75rem 1.5rem 2rem; }
+    .progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 100%;
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, #3a3a3a, #fff);
+      z-index: 6;
     }
 
-    .brand-row {
+    /* ---------- chapter nav ---------- */
+    .chapters {
+      position: fixed;
+      right: 2.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      list-style: none;
+      display: none;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    @media (min-width: 900px) { .chapters { display: flex; } }
+    .chapters a {
       display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .chapters a span { opacity: 0; transform: translateX(6px); transition: opacity 0.3s ease, transform 0.3s ease; }
+    .chapters a::after {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .chapters a:hover span,
+    .chapters a:focus-visible span,
+    .chapters a.on span { opacity: 1; transform: none; }
+    .chapters a.on { color: var(--fg); }
+    .chapters a.on::after { background: currentColor; transform: scale(1.3); }
+
+    /* ---------- chapters ---------- */
+    main { position: relative; z-index: 2; }
+
+    .chapter { height: 200vh; position: relative; }
+    .chapter:last-child { height: 100vh; }
+
+    .stick {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 1.25rem calc(3.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .copy {
+      max-width: 30rem;
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+      will-change: opacity, transform;
+    }
+
+    /* readable text over particles on small screens */
+    @media (max-width: 899px) {
+      .copy {
+        padding: 1.25rem 1rem;
+        background: radial-gradient(ellipse at 50% 60%, rgba(5,5,5,0.82), rgba(5,5,5,0) 72%);
+      }
+    }
+
+    @media (min-width: 900px) {
+      .stick { align-items: center; padding: 0 4rem 0 clamp(3rem, 8vw, 8rem); }
+      .copy { margin: 0; text-align: left; max-width: 26rem; }
+      .chapter.center .stick { justify-content: center; align-items: flex-end; padding-bottom: 12vh; }
+      .chapter.center .copy { text-align: center; max-width: 32rem; }
+    }
+
+    .copy h1, .copy h2, .copy p { text-shadow: 0 1px 2px rgba(0,0,0,0.8), 0 4px 28px rgba(0,0,0,0.9); }
+
+    .kicker {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+    .kicker b { color: var(--soft); font-weight: 500; }
+
+    h1, h2 {
+      font-weight: 560;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      font-size: clamp(2.2rem, 7vw, 4.2rem);
+      margin-bottom: 1rem;
+    }
+
+    .copy p.body {
+      color: var(--soft);
+      font-size: clamp(0.98rem, 2.2vw, 1.1rem);
+      line-height: 1.65;
+      text-wrap: pretty;
+    }
+
+    /* the first words surface slowly out of the dark */
+    #hiclik .copy > * { animation: surface 2.4s ease both; }
+    #hiclik .kicker { animation-delay: 1s; }
+    #hiclik h1 { animation-delay: 1.6s; }
+    #hiclik .body { animation-delay: 2.4s; }
+    #hiclik .hint { animation-delay: 3.6s; }
+    @keyframes surface {
+      from { opacity: 0; filter: blur(6px); transform: translateY(8px); }
+      to { opacity: 1; filter: none; transform: none; }
+    }
+
+    .hint {
+      margin-top: 2rem;
+      display: inline-flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.55rem;
-    }
-
-    .ykg {
-      height: clamp(28px, 6vw, 36px);
-      width: auto;
-    }
-
-    .digital {
-      height: 11px;
-      width: auto;
-      opacity: 0.75;
-      letter-spacing: 0.35em;
-    }
-
-    h1 {
-      margin-top: 0.35rem;
-      font-size: clamp(1.45rem, 4.2vw, 1.9rem);
-      font-weight: 560;
-      letter-spacing: -0.025em;
-      line-height: 1.25;
-    }
-
-    .lead {
+      gap: 0.6rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
       color: var(--muted);
-      font-size: clamp(0.92rem, 2.1vw, 1.05rem);
-      line-height: 1.65;
-      max-width: 26rem;
-      padding: 0 0.25rem;
-      text-wrap: balance;
     }
+    .hint i {
+      width: 1px; height: 38px;
+      background: linear-gradient(var(--muted), transparent);
+      animation: drip 2.2s ease-in-out infinite;
+      transform-origin: top;
+    }
+    @keyframes drip {
+      0% { transform: scaleY(0); opacity: 1; }
+      60% { transform: scaleY(1); opacity: 1; }
+      100% { transform: scaleY(1); opacity: 0; }
+    }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+    @media (max-width: 899px) { .cta-row { justify-content: center; } }
 
     .cta {
-      margin-top: 0.35rem;
-      min-height: 44px; /* parmak dostu dokunma alanı */
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 0.55rem;
-      padding: 0.85rem 1.25rem;
-      border: 1px solid rgba(255,255,255,0.22);
+      padding: 0.8rem 1.25rem;
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 999px;
       color: var(--fg);
       text-decoration: none;
       font-size: 0.95rem;
       letter-spacing: 0.02em;
+      background: rgba(5,5,5,0.55);
       transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
-
-    .cta:hover,
-    .cta:focus-visible {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.45);
+    .cta:hover, .cta:focus-visible {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.5);
       outline: none;
       transform: translateY(-1px);
     }
+    .cta svg { width: 16px; height: 16px; opacity: 0.85; }
+    .cta.ghost { border-color: transparent; color: var(--soft); background: none; }
 
-    .cta svg {
-      width: 16px;
-      height: 16px;
-      opacity: 0.85;
-    }
-
-    .meta {
-      font-size: 0.78rem;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
-
-    footer {
-      padding: 0 1.5rem 1.75rem;
-      text-align: center;
-      color: var(--muted);
+    .foot {
+      margin-top: 2rem;
       font-size: 0.72rem;
       letter-spacing: 0.06em;
+      color: var(--muted);
     }
+    .foot a { color: inherit; }
 
-    footer span { color: var(--soft); }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    :focus-visible { outline: 1px solid var(--fg); outline-offset: 3px; }
 
     @media (prefers-reduced-motion: reduce) {
-      .status i { animation: none; }
+      html { scroll-behavior: auto; }
+      .hint i { animation: none; }
+      #hiclik .copy > * { animation: none; }
       .cta { transition: none; }
-      .cta:hover { transform: none; }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header>
-      <img class="wordmark" src="assets/logo-white.png" alt="YKG" width="90" height="25" />
-      <p class="status"><i aria-hidden="true"></i> YAPIM AŞAMASINDA</p>
-    </header>
+  <canvas id="cosmos" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
-    <main>
-      <p class="status status-mobile"><i aria-hidden="true"></i> YAPIM AŞAMASINDA</p>
+  <header class="top">
+    <a href="#hiclik" aria-label="YKG Digital — başa dön"><img src="assets/logo-white.png" alt="YKG" width="90" height="25" /></a>
+    <a class="mail" href="mailto:ykg@ykg.digital">ykg@ykg.digital</a>
+  </header>
 
-      <img
-        class="mark"
-        src="assets/mark-deer.png"
-        width="200"
-        height="232"
-        alt="YKG Digital markası"
-        decoding="async"
-        fetchpriority="high"
-      />
+  <nav aria-label="Bölümler">
+    <ul class="chapters" id="chapters">
+      <li><a href="#hiclik"><span>Hiçlik</span></a></li>
+      <li><a href="#kivilcim"><span>Kıvılcım</span></a></li>
+      <li><a href="#big-bang"><span>Big Bang</span></a></li>
+      <li><a href="#atom"><span>Atom</span></a></li>
+      <li><a href="#dna"><span>DNA</span></a></li>
+      <li><a href="#bit"><span>Bit</span></a></li>
+      <li><a href="#ykg"><span>YKG</span></a></li>
+    </ul>
+  </nav>
 
-      <div class="brand-row">
-        <img class="ykg" src="assets/logo-white.png" alt="YKG" width="160" height="44" />
-        <img class="digital" src="assets/logo-digital-white.png" alt="Digital" width="120" height="11" />
-      </div>
+  <main>
+    <section class="chapter center" id="hiclik">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>00</b> · Zamandan önce</p>
+        <h1>Hiçlik.</h1>
+        <p class="body">Ne zaman vardı, ne mekân. Ne ışık, ne ses.</p>
+        <p class="hint" aria-hidden="true">Kaydır<i></i></p>
+      </div></div>
+    </section>
 
-      <h1>Yakında burada.</h1>
+    <section class="chapter center" id="kivilcim">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>01</b> · 10⁻⁴³ saniye</p>
+        <h2>Kıvılcım.</h2>
+        <p class="body">Sonra, karanlığın ortasında tek bir nokta. Sonsuz yoğun, sonsuz sıcak. Her şey onun içinde.</p>
+      </div></div>
+    </section>
 
-      <p class="lead">
-        YKG Digital sitesini yeniliyoruz.
-        Şimdilik bize e-posta ile ulaşabilirsiniz.
-      </p>
+    <section class="chapter center" id="big-bang">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>02</b> · 13,8 milyar yıl önce</p>
+        <h2>Büyük Patlama.</h2>
+        <p class="body">Nokta bir anda açıldı. Işık ve madde kanat gibi iki yana yayıldı. Evren doğdu.</p>
+      </div></div>
+    </section>
 
-      <a class="cta" href="mailto:ykg@ykg.digital">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-          <path d="M4 6.5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"/>
-          <path d="m4 7.5 8 6 8-6"/>
-        </svg>
-        ykg@ykg.digital
-      </a>
+    <section class="chapter" id="atom">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>03</b> · ~380.000 yıl sonra</p>
+        <h2>Atom.</h2>
+        <p class="body">Evren soğudukça parçacıklar birbirini buldu. Proton, nötron, elektron: her şeyin yapı taşları.</p>
+      </div></div>
+    </section>
 
-      <p class="meta"><a href="/atlas-gizlilik.html" style="color:inherit">Atlas Gizlilik Politikası</a> · ykg.digital · 2016–2026</p>
-    </main>
+    <section class="chapter" id="dna">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>04</b> · ~3,8 milyar yıl önce</p>
+        <h2>DNA.</h2>
+        <p class="body">Atomlar molekülleri, moleküller hayatın dilini kurdu. Dört harfle yazılmış bir kod: A, T, G, C.</p>
+      </div></div>
+    </section>
 
-    <footer>
-      © <span id="y">2026</span> YKG Digital · Tüm hakları saklıdır
-    </footer>
-  </div>
+    <section class="chapter" id="bit">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>05</b> · 1948</p>
+        <h2>Bit.</h2>
+        <p class="body">Sonra biz kendi kodumuzu yazdık. Sıfır ve bir: fikirlerin, hikâyelerin ve ürünlerin yeni yapı taşı.</p>
+      </div></div>
+    </section>
+
+    <section class="chapter" id="ykg">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>06</b> · Bugün</p>
+        <h2>YKG Digital.</h2>
+        <p class="body">Hiçlikten bite, bitten ürüne. Fikirleri tasarlıyor, kodluyor ve dijital ürünlere dönüştürüyoruz.</p>
+        <div class="cta-row">
+          <a class="cta" href="mailto:ykg@ykg.digital">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M4 6.5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"/>
+              <path d="m4 7.5 8 6 8-6"/>
+            </svg>
+            ykg@ykg.digital
+          </a>
+          <a class="cta ghost" href="#hiclik">Baştan izle ↑</a>
+        </div>
+        <p class="foot">© <span id="y">2026</span> YKG Digital · <a href="/atlas-gizlilik.html">Atlas Gizlilik Politikası</a></p>
+      </div></div>
+    </section>
+  </main>
 
   <script>
+  (function () {
+    "use strict";
+
     document.getElementById("y").textContent = String(new Date().getFullYear());
+
+    var canvas = document.getElementById("cosmos");
+    var ctx = canvas.getContext("2d");
+    var progressEl = document.getElementById("progress");
+    var navLinks = document.querySelectorAll("#chapters a");
+    var copies = document.querySelectorAll(".copy");
+    var veil = document.querySelector(".veil");
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // 0 karanlık · 1 kıvılcım · 2 patlama · 3 atom · 4 dna · 5 bit · 6 ykg
+    var STAGES = 7;
+    var BANG = 2, ATOM = 3, DNA = 4, LOGO = 6;
+    var ZOOM = 18;       // how far the camera travels between two scenes
+
+    var W = 0, H = 0, DPR = 1, wide = false;
+    var N = 0;
+    var P = [];          // particles
+    var logoPts = null;  // sampled points from the deer mark
+
+    /* ---------- helpers ---------- */
+    function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function smooth(a, b, v) { var t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); }
+    function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+    function easeOutExpo(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+    function rand(seed) { // deterministic 0..1
+      var x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+      return x - Math.floor(x);
+    }
+
+    /* ---------- setup ---------- */
+    function resize() {
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      wide = W >= 900;
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+      var target = W < 600 ? 900 : W < 1200 ? 1400 : 1800;
+      if (target !== N) build(target);
+    }
+
+    function build(n) {
+      N = n;
+      P = [];
+      for (var i = 0; i < N; i++) {
+        P.push({ a: rand(i + 1), b: rand(i + 1001), c: rand(i + 2003), d: rand(i + 3007), e: rand(i + 4013) });
+      }
+      assignLogo();
+    }
+
+    // sample the deer mark into points so bits can assemble into it
+    function loadLogo() {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var sw = 160, sh = Math.round(160 * img.height / img.width);
+          var off = document.createElement("canvas");
+          off.width = sw; off.height = sh;
+          var octx = off.getContext("2d");
+          octx.drawImage(img, 0, 0, sw, sh);
+          var data = octx.getImageData(0, 0, sw, sh).data;
+          var pts = [];
+          for (var y = 0; y < sh; y++) {
+            for (var x = 0; x < sw; x++) {
+              if (data[(y * sw + x) * 4 + 3] > 140) pts.push([(x / sw - 0.5) * (sw / sh), y / sh - 0.5]);
+            }
+          }
+          if (pts.length > 50) { logoPts = pts; assignLogo(); }
+        } catch (err) { /* tainted canvas (file://) — fall back to a disc */ }
+      };
+      img.src = "assets/mark-deer.png";
+    }
+
+    function assignLogo() {
+      for (var i = 0; i < N; i++) {
+        var p = P[i];
+        if (logoPts) {
+          var pt = logoPts[Math.floor(p.e * logoPts.length) % logoPts.length];
+          p.lx = pt[0] + (p.b - 0.5) * 0.006;
+          p.ly = pt[1] + (p.c - 0.5) * 0.006;
+        } else {
+          var th = p.a * Math.PI * 2, r = Math.sqrt(p.b) * 0.5;
+          p.lx = Math.cos(th) * r; p.ly = Math.sin(th) * r;
+        }
+      }
+    }
+
+    /* ---------- particle stages ----------
+       Each writes a position in "shape space" (unit ≈ S px) plus its look:
+       out = [x, y, z, size, alpha, r, g, b, glyph(0..1)] */
+    var out0 = new Float32Array(9), out1 = new Float32Array(9);
+
+    function set(o, x, y, z, s, al, r, g, b, gl) {
+      o[0] = x; o[1] = y; o[2] = z; o[3] = s; o[4] = al; o[5] = r; o[6] = g; o[7] = b; o[8] = gl;
+    }
+    function rotY(o, ang) {
+      var c = Math.cos(ang), s = Math.sin(ang), x = o[0], z = o[2];
+      o[0] = x * c + z * s; o[2] = -x * s + z * c;
+    }
+    function rotX(o, ang) {
+      var c = Math.cos(ang), s = Math.sin(ang), y = o[1], z = o[2];
+      o[1] = y * c - z * s; o[2] = y * s + z * c;
+    }
+
+    // absolute darkness: nothing is drawn
+    function stageVoid(p, i, t, o) { set(o, 0, 0, 0, 0.5, 0, 255, 255, 255, 0); }
+
+    // a single point is born; the emptiness around it falls inwards
+    function stageSpark(p, i, t, o) {
+      if (i === 0) {
+        var pulse = 0.5 + 0.5 * Math.sin(t * 2.2);
+        set(o, 0, 0, 0, 1.8 + pulse * 1.4, 0.85 + 0.15 * pulse, 255, 255, 255, 0);
+        return;
+      }
+      if (p.e > 0.45) { set(o, 0, 0, 0, 0.5, 0, 255, 255, 255, 0); return; }
+      var ph = (t * 0.1 * (0.6 + p.d) + p.a) % 1;        // 0 far away → 1 swallowed
+      var r = Math.pow(1 - ph, 1.6) * 1.5;
+      var ang = p.b * Math.PI * 2 + ph * 1.4;            // slight spiral
+      set(o, Math.cos(ang) * r, Math.sin(ang) * r * 0.85, (p.c - 0.5) * 0.3,
+        0.4 + p.d * 0.6, Math.pow(ph, 2.2) * 0.55, 255, 255, 255, 0);
+    }
+
+    // butterfly: two lobes of light thrown left and right
+    function stageBang(p, i, t, o) {
+      var side = p.a < 0.5 ? -1 : 1;
+      var r = Math.pow(p.c, 0.75) * 1.5;
+      var spread = (p.b - 0.5) * 2;
+      var lift = Math.min(1, r / 0.8);
+      var x = side * r * (1 + 0.015 * Math.sin(t * 0.4));
+      var y = spread * r * 0.5 * lift - r * 0.14 * lift;
+      var k = clamp(r / 1.5, 0, 1);
+      set(o, x, y, (p.d - 0.5) * 0.5, 0.45 + p.e * 1.1, (0.12 + (1 - k) * 0.4), lerp(255, 150, k), lerp(255, 150, k), lerp(255, 150, k), 0);
+    }
+
+    // photos carry atom and DNA; particles become dust drifting in front of them
+    function stageDust(p, i, t, o) {
+      var x = (p.a - 0.5) * 4.4, y = (p.b - 0.5) * 3, z = p.c * 2.4 - 0.8;
+      var tw = 0.5 + 0.5 * Math.sin(t * (0.4 + p.d) + p.e * 20);
+      set(o, x + Math.sin(t * 0.1 + p.e * 6) * 0.03, y - ((t * 0.01 * (0.5 + p.d)) % 0.2), z,
+        0.45 + p.d * 0.9, (p.e < 0.35 ? 0.5 : 0) * (0.35 + 0.65 * tw), 255, 255, 255, 0);
+    }
+
+    function stageBits(p, i, t, o) {
+      var cols = Math.ceil(Math.sqrt(N * 1.4)), rows = Math.ceil(N / cols);
+      var cx = i % cols, cy = Math.floor(i / cols);
+      var x = (cx / (cols - 1) - 0.5) * (wide ? 2.0 : 1.85), y = (cy / Math.max(rows - 1, 1) - 0.5) * 1.8;
+      var z = Math.sin(x * 2.2 + t * 0.8) * 0.12 + Math.cos(y * 2.5 + t * 0.6) * 0.1;
+      // falling "rain" highlight per column
+      var head = (t * (0.18 + rand(cx + 55) * 0.2) + rand(cx + 99)) % 1;
+      var dist = ((cy / rows) - head + 1) % 1;
+      var glow = Math.pow(1 - dist, 10);
+      var hot = glow > 0.6;
+      set(o, x, y, z, 1, 0.18 + glow * 0.82, hot ? 255 : 150, hot ? 255 : 150, hot ? 255 : 150, 1);
+      rotX(o, -0.25); rotY(o, Math.sin(t * 0.2) * 0.25 + (wide ? -0.3 : 0));
+    }
+
+    function stageLogo(p, i, t, o) {
+      var tw = 0.75 + 0.25 * Math.sin(t * 1.3 + p.a * 30);
+      set(o, p.lx * 1.9, p.ly * 1.9, (p.d - 0.5) * 0.04, 0.9 + p.c * 0.7, tw, 242, 242, 242, 0);
+      rotY(o, Math.sin(t * 0.3) * 0.18);
+    }
+
+    var STAGE_FN = [stageVoid, stageSpark, stageBang, stageDust, stageDust, stageBits, stageLogo];
+
+    /* ---------- photographic scenes ---------- */
+    var SCENE_SRC = [];
+    SCENE_SRC[BANG] = "assets/scenes/big-bang.jpg";
+    SCENE_SRC[ATOM] = "assets/scenes/atom.jpg";
+    SCENE_SRC[DNA] = "assets/scenes/dna.jpg";
+    var SCENE_EDGE = [];                 // where the soft vignette starts
+    SCENE_EDGE[BANG] = 0.7; SCENE_EDGE[ATOM] = 0.55; SCENE_EDGE[DNA] = 0.5;
+    var sceneImg = [];
+    var revealCv = document.createElement("canvas"), revealCtx = revealCv.getContext("2d");
+
+    function loadScenes() {
+      SCENE_SRC.forEach(function (src, k) {
+        if (!src) return;
+        var img = new Image();
+        img.onload = function () {
+          // bake a soft elliptical fade so the photo melts into the black page
+          var c = document.createElement("canvas");
+          c.width = img.width; c.height = img.height;
+          var g = c.getContext("2d");
+          g.drawImage(img, 0, 0);
+          g.globalCompositeOperation = "destination-in";
+          g.translate(c.width / 2, c.height / 2);
+          g.scale(c.width / 2, c.height / 2);
+          var rg = g.createRadialGradient(0, 0, 0, 0, 0, 1);
+          rg.addColorStop(0, "#000");
+          rg.addColorStop(SCENE_EDGE[k], "#000");
+          rg.addColorStop(1, "rgba(0,0,0,0)");
+          g.fillStyle = rg;
+          g.fillRect(-1, -1, 2, 2);
+          sceneImg[k] = c;
+        };
+        img.src = src;
+      });
+    }
+
+    // wings open from a thin line of light to full span; 1 = fully open
+    function revealed(img, reveal) {
+      if (reveal >= 0.999) return img;
+      var rw = 1280, rh = Math.round(1280 * img.height / img.width);
+      if (revealCv.width !== rw) { revealCv.width = rw; revealCv.height = rh; }
+      var g = revealCtx;
+      g.globalCompositeOperation = "copy";
+      g.drawImage(img, 0, 0, rw, rh);
+      g.globalCompositeOperation = "destination-in";
+      var rx = lerp(0.02, 1.15, easeOutCubic(reveal)) * rw / 2;
+      var ry = lerp(0.012, 1.15, Math.pow(smooth(0.1, 1, reveal), 1.3)) * rh / 2;
+      g.save();
+      g.translate(rw / 2, rh / 2);
+      g.scale(rx, ry);
+      var rg = g.createRadialGradient(0, 0, 0, 0, 0, 1);
+      rg.addColorStop(0, "#000");
+      rg.addColorStop(0.55, "#000");
+      rg.addColorStop(1, "rgba(0,0,0,0)");
+      g.fillStyle = rg;
+      g.fillRect(-1, -1, 2, 2);
+      g.restore();
+      return revealCv;
+    }
+
+    function drawScene(k, zoom, alpha, cx, cy, S, reveal) {
+      var img = sceneImg[k];
+      if (!img || alpha < 0.01) return;
+      var iw = img.width, ih = img.height;
+      var h;
+      if (k === BANG) h = wide ? Math.max(W / iw, H / ih) * ih : (W * 1.35) * ih / iw;
+      else h = S * (k === ATOM ? 3.4 : 2.8);
+      h *= zoom * (1 + 0.015 * Math.sin(t * 0.5));
+      var w = h * iw / ih;
+      if (w > W * 60) return;
+      var ox = 0, oy = 0, rot = 0;
+      if (k === ATOM) rot = t * 0.03;
+      if (k === DNA) { var d = Math.sin(t * 0.25) * 0.03 * h; ox = d * 0.9; oy = -d * 0.42; }
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(cx + ox, cy + oy);
+      if (rot) ctx.rotate(rot);
+      ctx.drawImage(k === BANG ? revealed(img, reveal === undefined ? 1 : reveal) : img, -w / 2, -h / 2, w, h);
+      ctx.restore();
+      if (k === ATOM) { // the nucleus breathes
+        var r = h * 0.1, pulse = 0.08 + 0.06 * Math.sin(t * 2);
+        var ng = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+        ng.addColorStop(0, "rgba(255,255,255," + (pulse * alpha) + ")");
+        ng.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = ng;
+        ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+      }
+    }
+
+    function glowAt(cx, cy, r, a) {
+      if (a < 0.005) return;
+      var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      g.addColorStop(0, "rgba(255,255,255," + a + ")");
+      g.addColorStop(0.35, "rgba(220,220,220," + (a * 0.35) + ")");
+      g.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = g;
+      ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+    }
+
+    // where the scene sits on screen
+    function layout(k) {
+      if (!wide) {
+        if (k === LOGO) return [W * 0.5, H * 0.26, Math.min(W * 0.4, H * 0.19)];
+        return [W * 0.5, H * (k <= BANG ? 0.4 : 0.36), Math.min(W * 0.44, H * 0.3)];
+      }
+      if (k <= BANG) return [W * 0.5, H * 0.42, Math.min(W * 0.3, H * 0.36)];
+      return [W * 0.63, H * 0.5, Math.min(W * 0.28, H * 0.4)];
+    }
+
+    /* ---------- scroll ---------- */
+    var scrollS = 0;   // target stage position from scroll (0..STAGES-1)
+    var viewS = 0;     // smoothed
+
+    function readScroll() {
+      var vh = window.innerHeight;
+      var max = document.documentElement.scrollHeight - vh;
+      var y = window.scrollY || window.pageYOffset;
+      scrollS = clamp(y / (vh * 2), 0, STAGES - 1);
+      progressEl.style.transform = "scaleX(" + (max > 0 ? y / max : 0) + ")";
+    }
+
+    function updateUI(s) {
+      veil.style.opacity = smooth(BANG + 0.3, BANG + 0.9, s).toFixed(3);
+      var cur = Math.round(s);
+      for (var i = 0; i < navLinks.length; i++) {
+        navLinks[i].classList.toggle("on", i === cur);
+        if (i === cur) navLinks[i].setAttribute("aria-current", "step");
+        else navLinks[i].removeAttribute("aria-current");
+      }
+      for (var j = 0; j < copies.length; j++) {
+        var f = s - j; // <0 before, 0 hold, >0 leaving
+        var op = j === copies.length - 1 ? smooth(-0.35, -0.05, f) : smooth(-0.35, -0.05, f) * (1 - smooth(0.45, 0.75, f));
+        var ty = f < 0 ? (1 - smooth(-0.35, -0.05, f)) * 24 : -smooth(0.45, 0.75, f) * 24;
+        copies[j].style.opacity = op.toFixed(3);
+        copies[j].style.transform = "translateY(" + ty.toFixed(1) + "px)";
+      }
+    }
+
+    /* ---------- render ---------- */
+    var t = 0, last = performance.now();
+    var glyphCache = {};
+
+    function glyph(ch, px, color) {
+      var key = ch + px + color;
+      if (glyphCache[key]) return glyphCache[key];
+      var c = document.createElement("canvas"), sz = Math.ceil(px * 1.4 * DPR);
+      c.width = c.height = sz;
+      var g = c.getContext("2d");
+      g.fillStyle = color;
+      g.font = "600 " + Math.round(px * DPR) + "px ui-monospace, Menlo, Consolas, monospace";
+      g.textAlign = "center"; g.textBaseline = "middle";
+      g.fillText(ch, sz / 2, sz / 2);
+      return (glyphCache[key] = c);
+    }
+
+    function frame(now) {
+      var dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (!reduceMotion) t += dt;
+      viewS += (scrollS - viewS) * (reduceMotion ? 1 : Math.min(1, dt * 6));
+      if (Math.abs(scrollS - viewS) < 0.0005) viewS = scrollS;
+
+      var k = Math.min(Math.floor(viewS), STAGES - 2);
+      var f = viewS - k;
+      // hold the scene while its text is pinned, move on as the next chapter scrolls in
+      var m = smooth(0.4, 1.0, f);
+      if (viewS >= STAGES - 1) { k = STAGES - 2; f = 1; m = 1; }
+
+      var L0 = layout(k), L1 = layout(k + 1);
+      var gm = easeInOut(m);
+      var cx = lerp(L0[0], L1[0], gm), cy = lerp(L0[1], L1[1], gm), S = lerp(L0[2], L1[2], gm);
+
+      ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#050505";
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
+
+      var A = STAGE_FN[k], B = STAGE_FN[k + 1];
+      var glyphPx = Math.max(8, Math.min(13, S * 0.035));
+      var gz = [glyph("0", glyphPx, "#9a9a9a"), glyph("1", glyphPx, "#9a9a9a")];
+      var gh = [glyph("0", glyphPx, "#ffffff"), glyph("1", glyphPx, "#ffffff")];
+      var gs = gz[0].width / DPR;
+      var D = 3.2;
+
+      function draw(o, p, zoom, mul) {
+        var al = o[4] * mul;
+        if (al < 0.01) return;
+        var pz = 1 / (1 + o[2] / D);
+        var sc = S * zoom * pz;
+        var sx = cx + o[0] * sc, sy = cy + o[1] * sc;
+        if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) return;
+        // particles swell as the camera flies past them
+        var grow = Math.min(Math.pow(zoom, 0.6), 6);
+        var fade = clamp(pz * 1.1 - 0.1, 0.2, 1);
+        var gl = o[8];
+        if (gl < 0.99) {
+          ctx.globalAlpha = al * fade * (1 - gl);
+          ctx.fillStyle = "rgb(" + (o[5] | 0) + "," + (o[6] | 0) + "," + (o[7] | 0) + ")";
+          ctx.beginPath();
+          ctx.arc(sx, sy, o[3] * pz * grow, 0, 6.2832);
+          ctx.fill();
+        }
+        if (gl > 0.01) {
+          var bit = Math.floor(t * (0.3 + p.a * 1.5) + p.b * 10) & 1;
+          var w = gs * pz * grow;
+          ctx.globalAlpha = al * fade * gl;
+          ctx.drawImage((o[5] > 200 ? gh : gz)[bit], sx - w / 2, sy - w / 2, w, w);
+        }
+      }
+
+      var i, p, j, local;
+      if (k === 0) {
+        // darkness → a point of light is born
+        glowAt(cx, cy, 70, 0.12 * m * (0.7 + 0.3 * Math.sin(t * 2.2)));
+        for (i = 0; i < N; i++) {
+          p = P[i];
+          B(p, i, t, out0);
+          draw(out0, p, 1, i === 0 ? smooth(0.2, 0.7, m) : smooth(0.5, 1, m));
+        }
+      } else if (k === 1) {
+        // the point bursts: a flash, then the wings open left and right
+        var burst = smooth(0.03, 0.09, m);
+        glowAt(cx, cy, 70, 0.12 * (1 - burst));
+        drawScene(BANG, 1, smooth(0.04, 0.22, m), cx, cy, S, smooth(0.05, 0.9, m));
+        for (i = 0; i < N; i++) {
+          p = P[i];
+          if (burst < 1) { A(p, i, t, out0); draw(out0, p, 1, 1 - burst); }
+          if (burst > 0) {
+            local = easeOutExpo(clamp((m - 0.05) * 1.25 - p.d * 0.1, 0, 1));
+            B(p, i, t, out1);
+            for (j = 0; j < 3; j++) out1[j] *= local;
+            draw(out1, p, 1, burst);
+          }
+        }
+        if (!reduceMotion) {
+          var flash = Math.exp(-Math.pow((m - 0.07) / 0.045, 2)) * smooth(0, 0.04, m);
+          glowAt(cx, cy, Math.max(W, H) * (0.25 + m * 1.5), 0.95 * flash);
+        }
+      } else {
+        // camera zoom: the current scene rushes past, the next one grows out of its centre
+        var depth = k + m + 0.15 * (f - m);   // slow drift while holding, fast dive while moving on
+        var zA = Math.pow(ZOOM, depth - k), zB = Math.pow(ZOOM, depth - k - 1);
+        var aA = 1 - smooth(0.55, 0.95, m), aB = smooth(0.05, 0.55, m);
+        // photos hand over earlier than dust so a zoomed-in photo never washes the screen grey
+        drawScene(k, zA, 1 - smooth(0.25, 0.62, m), cx, cy, S);
+        drawScene(k + 1, zB, smooth(0.2, 0.7, m), cx, cy, S);
+        for (i = 0; i < N; i++) {
+          p = P[i];
+          if (aA > 0.01) { A(p, i, t, out0); draw(out0, p, zA, aA); }
+          if (aB > 0.01) { B(p, i, t, out1); draw(out1, p, zB, aB); }
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      updateUI(viewS);
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener("resize", function () { resize(); readScroll(); });
+    window.addEventListener("scroll", readScroll, { passive: true });
+
+    resize();
+    loadLogo();
+    loadScenes();
+    readScroll();
+    viewS = scrollS;
+    requestAnimationFrame(frame);
+  })();
   </script>
 </body>
 </html>
