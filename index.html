@@ -22,7 +22,7 @@
       --muted: #8a8a8a;
       --soft: #bdbdbd;
       --line: rgba(255, 255, 255, 0.12);
-      --accent: #8dffb0;
+      --accent: #ffffff;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -82,7 +82,7 @@
       width: 100%;
       transform-origin: 0 50%;
       transform: scaleX(0);
-      background: linear-gradient(90deg, #ffd59a, #ff8c5a, #8fa0ff, #c89bff, var(--accent), #fff);
+      background: linear-gradient(90deg, #3a3a3a, #fff);
       z-index: 6;
     }
 
@@ -282,7 +282,7 @@
         <p class="kicker"><b>00</b> · t = 0</p>
         <h1>Hiçlik.</h1>
         <p class="body">Ne zaman vardı, ne mekân. Ne ışık, ne ses. Sadece bir ihtimal.</p>
-        <p class="hint" aria-hidden="true">Kaydır<i></i></p>
+        <p class="hint" aria-hidden="true">Yaklaşmak için kaydır<i></i></p>
       </div></div>
     </section>
 
@@ -356,6 +356,7 @@
     var P = [];          // particles
     var logoPts = null;  // sampled points from the deer mark
     var STAGES = 6;
+    var ZOOM = 28;       // how far the camera travels between two scenes
 
     /* ---------- helpers ---------- */
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -458,7 +459,7 @@
       } else if (i < 60) {
         // quantum foam: faint flickers around the point
         var fl = Math.max(0, Math.sin(t * (0.6 + p.a * 1.4) + p.b * 40));
-        set(o, (p.c - 0.5) * 0.5, (p.d - 0.5) * 0.5, 0, 0.8, Math.pow(fl, 8) * 0.35, 200, 210, 255, 0);
+        set(o, (p.c - 0.5) * 0.5, (p.d - 0.5) * 0.5, 0, 0.8, Math.pow(fl, 8) * 0.35, 210, 210, 210, 0);
       } else {
         set(o, 0, 0, 0, 0.5, 0, 255, 255, 255, 0);
       }
@@ -469,8 +470,7 @@
       var r = Math.pow(p.c, 0.55) * 1.9;
       var x = r * Math.sin(ph) * Math.cos(th), y = r * Math.sin(ph) * Math.sin(th), z = r * Math.cos(ph);
       var k = clamp(r / 1.9, 0, 1), cr, cg, cb;
-      if (k < 0.35) { var u = k / 0.35; cr = 255; cg = lerp(245, 170, u); cb = lerp(220, 90, u); }
-      else { var v = (k - 0.35) / 0.65; cr = lerp(255, 110, v); cg = lerp(170, 100, v); cb = lerp(90, 255, v); }
+      cr = cg = cb = lerp(255, 80, Math.pow(k, 0.7));
       set(o, x, y, z, 0.6 + p.d * 1.8, 0.35 + (1 - k) * 0.65, cr, cg, cb, 0);
       rotY(o, t * 0.05); rotX(o, 0.3);
     }
@@ -487,7 +487,7 @@
         var th = p.c * Math.PI * 2, ph = Math.acos(2 * p.d - 1), r = Math.cbrt(p.e) * 0.045;
         var proton = k % 2 === 0;
         set(o, n[0] + r * Math.sin(ph) * Math.cos(th), n[1] + r * Math.sin(ph) * Math.sin(th), n[2] + r * Math.cos(ph),
-          1.1 + p.e, 0.9, proton ? 255 : 150, proton ? 110 : 175, proton ? 100 : 255, 0);
+          1.1 + p.e, 0.9, proton ? 255 : 130, proton ? 255 : 130, proton ? 255 : 130, 0);
         rotY(o, t * 0.4);
         return;
       }
@@ -496,7 +496,7 @@
       var ang = p.c * Math.PI * 2 + t * (electron ? 1.6 : 0.25) * (orbit % 2 ? -1 : 1);
       var jit = electron ? 0 : (p.e - 0.5) * 0.05;
       set(o, Math.cos(ang) * (R + jit), Math.sin(ang) * (R + jit) * 0.34, (p.e - 0.5) * 0.02,
-        electron ? 3.2 : 0.7, electron ? 1 : 0.28, electron ? 140 : 120, electron ? 230 : 170, 255, 0);
+        electron ? 3.2 : 0.7, electron ? 1 : 0.28, electron ? 255 : 170, electron ? 255 : 170, electron ? 255 : 170, 0);
       // tilt each orbit plane
       var tilt = orbit * Math.PI / 3;
       var c = Math.cos(tilt), s = Math.sin(tilt), x = o[0], y = o[1];
@@ -513,7 +513,7 @@
         phi = u * turns * Math.PI * 2 + t * 0.55 + (kind ? Math.PI : 0);
         var th = (p.c - 0.5) * 0.04;
         set(o, Math.cos(phi) * (R + th), (u - 0.5) * len, Math.sin(phi) * (R + th),
-          1 + p.d * 0.8, 0.85, kind ? 205 : 130, kind ? 150 : 200, 255, 0);
+          1 + p.d * 0.8, 0.85, kind ? 175 : 255, kind ? 175 : 255, kind ? 175 : 255, 0);
       } else {
         var rungs = 28, m = Math.floor(p.b * rungs);
         u = (m + 0.5) / rungs;
@@ -521,9 +521,8 @@
         var f = p.c * 2 - 1; // -1..1 across the rung
         var side = f < 0;
         var gc = rand(m + 777) < 0.5;
-        var cr = gc ? (side ? 110 : 90) : (side ? 255 : 255);
-        var cg = gc ? (side ? 235 : 180) : (side ? 195 : 115);
-        var cb = gc ? (side ? 170 : 255) : (side ? 90 : 125);
+        var cr = gc ? (side ? 230 : 140) : (side ? 110 : 190);
+        var cg = cr, cb = cr;
         set(o, Math.cos(phi) * R * f, (u - 0.5) * len, Math.sin(phi) * R * f, 0.9, 0.7, cr, cg, cb, 0);
       }
       rotX(o, 0.25);
@@ -536,7 +535,7 @@
     function stageBits(p, i, t, o) {
       var cols = Math.ceil(Math.sqrt(N * 1.4)), rows = Math.ceil(N / cols);
       var cx = i % cols, cy = Math.floor(i / cols);
-      var x = (cx / (cols - 1) - 0.5) * (wide ? 2.0 : 2.3), y = (cy / Math.max(rows - 1, 1) - 0.5) * 1.8;
+      var x = (cx / (cols - 1) - 0.5) * (wide ? 2.0 : 1.85), y = (cy / Math.max(rows - 1, 1) - 0.5) * 1.8;
       var z = Math.sin(x * 2.2 + t * 0.8) * 0.12 + Math.cos(y * 2.5 + t * 0.6) * 0.1;
       // falling "rain" highlight per column
       var head = (t * (0.18 + rand(cx + 55) * 0.2) + rand(cx + 99)) % 1;
@@ -544,7 +543,7 @@
       var glow = Math.pow(1 - dist, 10);
       var al = 0.18 + glow * 0.82;
       var hot = glow > 0.6;
-      set(o, x, y, z, 1, al, hot ? 235 : 141, 255, hot ? 240 : 176, 1);
+      set(o, x, y, z, 1, al, hot ? 255 : 150, hot ? 255 : 150, hot ? 255 : 150, 1);
       rotX(o, -0.25); rotY(o, Math.sin(t * 0.2) * 0.25 + (wide ? -0.3 : 0));
     }
 
@@ -637,8 +636,8 @@
       var bangAmt = (k === 0 ? m : k === 1 ? 1 - m : 0);
       if (bangAmt > 0.01) {
         var gr = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.7);
-        gr.addColorStop(0, "rgba(255,150,80," + (0.16 * bangAmt) + ")");
-        gr.addColorStop(0.4, "rgba(90,70,200," + (0.08 * bangAmt) + ")");
+        gr.addColorStop(0, "rgba(255,255,255," + (0.09 * bangAmt) + ")");
+        gr.addColorStop(0.4, "rgba(140,140,140," + (0.04 * bangAmt) + ")");
         gr.addColorStop(1, "rgba(5,5,5,0)");
         ctx.fillStyle = gr;
         ctx.fillRect(0, 0, W, H);
@@ -648,52 +647,61 @@
       var A = STAGE_FN[k], B = STAGE_FN[k + 1];
       var isBang = k === 0;
       var glyphPx = Math.max(8, Math.min(13, S * 0.035));
-      var gz = [glyph("0", glyphPx, "#8dffb0"), glyph("1", glyphPx, "#8dffb0")];
-      var gh = [glyph("0", glyphPx, "#ecfff2"), glyph("1", glyphPx, "#ecfff2")];
+      var gz = [glyph("0", glyphPx, "#9a9a9a"), glyph("1", glyphPx, "#9a9a9a")];
+      var gh = [glyph("0", glyphPx, "#ffffff"), glyph("1", glyphPx, "#ffffff")];
       var gs = gz[0].width / DPR;
       var D = 3.2;
 
-      for (var i = 0; i < N; i++) {
-        var p = P[i];
-        var local;
-        if (isBang) local = easeOutExpo(clamp(m * 1.15 - p.d * 0.05, 0, 1));
-        else local = easeInOut(clamp(m * 1.35 - p.e * 0.35, 0, 1));
-
-        var o;
-        if (local <= 0) { A(p, i, t, out0); o = out0; }
-        else if (local >= 1) { B(p, i, t, out1); o = out1; }
-        else {
-          A(p, i, t, out0); B(p, i, t, out1);
-          for (var j = 0; j < 9; j++) out0[j] = lerp(out0[j], out1[j], local);
-          // swirl a little mid-flight so morphs feel organic
-          if (!isBang) {
-            var sw = Math.sin(local * Math.PI) * 0.35 * (p.a - 0.5);
-            out0[0] += sw; out0[2] += sw * 0.6;
-          }
-          o = out0;
-        }
-
-        var al = o[4];
-        if (al < 0.01) continue;
+      function draw(o, p, zoom, mul) {
+        var al = o[4] * mul;
+        if (al < 0.01) return;
         var pz = 1 / (1 + o[2] / D);
-        var sx = cx + o[0] * S * pz, sy = cy + o[1] * S * pz;
-        if (sx < -20 || sx > W + 20 || sy < -20 || sy > H + 20) continue;
-        var size = o[3] * pz;
+        var sc = S * zoom * pz;
+        var sx = cx + o[0] * sc, sy = cy + o[1] * sc;
+        if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) return;
+        // particles swell as the camera flies past them
+        var grow = Math.min(Math.pow(zoom, 0.6), 6);
         var fade = clamp(pz * 1.1 - 0.1, 0.2, 1);
         var gl = o[8];
-
         if (gl < 0.99) {
           ctx.globalAlpha = al * fade * (1 - gl);
           ctx.fillStyle = "rgb(" + (o[5] | 0) + "," + (o[6] | 0) + "," + (o[7] | 0) + ")";
           ctx.beginPath();
-          ctx.arc(sx, sy, size, 0, 6.2832);
+          ctx.arc(sx, sy, o[3] * pz * grow, 0, 6.2832);
           ctx.fill();
         }
         if (gl > 0.01) {
           var bit = Math.floor(t * (0.3 + p.a * 1.5) + p.b * 10) & 1;
-          var w = gs * pz;
+          var w = gs * pz * grow;
           ctx.globalAlpha = al * fade * gl;
           ctx.drawImage((o[5] > 200 ? gh : gz)[bit], sx - w / 2, sy - w / 2, w, w);
+        }
+      }
+
+      var i, p;
+      if (isBang) {
+        // the point explodes: particles fly from the centre to their places
+        for (i = 0; i < N; i++) {
+          p = P[i];
+          var local = easeOutExpo(clamp(m * 1.15 - p.d * 0.05, 0, 1));
+          if (local <= 0) { A(p, i, t, out0); }
+          else if (local >= 1) { B(p, i, t, out0); }
+          else {
+            A(p, i, t, out0); B(p, i, t, out1);
+            for (var j = 0; j < 9; j++) out0[j] = lerp(out0[j], out1[j], local);
+          }
+          draw(out0, p, 1, 1);
+        }
+      } else {
+        // camera zoom: the current scene rushes past, the next one grows out of its centre
+        var depth = k + m + 0.15 * (f - m);   // slow drift while holding, fast dive while morphing
+        if (viewS >= STAGES - 1) depth = STAGES - 1;
+        var zA = Math.pow(ZOOM, depth - k), zB = Math.pow(ZOOM, depth - k - 1);
+        var aA = 1 - smooth(0.55, 0.95, m), aB = smooth(0.05, 0.55, m);
+        for (i = 0; i < N; i++) {
+          p = P[i];
+          if (aA > 0.01) { A(p, i, t, out0); draw(out0, p, zA, aA); }
+          if (aB > 0.01) { B(p, i, t, out1); draw(out1, p, zB, aB); }
         }
       }
 
@@ -704,9 +712,9 @@
           ctx.globalCompositeOperation = "lighter";
           ctx.globalAlpha = 1;
           var fr = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * (0.2 + m * 2));
-          fr.addColorStop(0, "rgba(255,250,235," + (0.95 * flash) + ")");
-          fr.addColorStop(0.3, "rgba(255,200,140," + (0.4 * flash) + ")");
-          fr.addColorStop(1, "rgba(255,160,90,0)");
+          fr.addColorStop(0, "rgba(255,255,255," + (0.95 * flash) + ")");
+          fr.addColorStop(0.3, "rgba(200,200,200," + (0.35 * flash) + ")");
+          fr.addColorStop(1, "rgba(255,255,255,0)");
           ctx.fillStyle = fr;
           ctx.fillRect(0, 0, W, H);
         }
