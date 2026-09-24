@@ -48,6 +48,17 @@
       pointer-events: none;
     }
 
+    /* keeps text readable over the photos on wide screens */
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      display: none;
+      background: linear-gradient(90deg, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.55) 32%, rgba(5,5,5,0) 55%);
+    }
+    @media (min-width: 900px) { .veil { display: block; } }
+
     /* ---------- header ---------- */
     .top {
       position: fixed;
@@ -164,6 +175,8 @@
       .chapter.center .copy { text-align: center; max-width: 32rem; }
     }
 
+    .copy h1, .copy h2, .copy p { text-shadow: 0 1px 2px rgba(0,0,0,0.8), 0 4px 28px rgba(0,0,0,0.9); }
+
     .kicker {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.72rem;
@@ -258,6 +271,7 @@
 </head>
 <body>
   <canvas id="cosmos" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
   <div class="progress" id="progress" aria-hidden="true"></div>
 
   <header class="top">
@@ -349,6 +363,7 @@
     var progressEl = document.getElementById("progress");
     var navLinks = document.querySelectorAll("#chapters a");
     var copies = document.querySelectorAll(".copy");
+    var veil = document.querySelector(".veil");
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     var W = 0, H = 0, DPR = 1, wide = false;
@@ -356,7 +371,7 @@
     var P = [];          // particles
     var logoPts = null;  // sampled points from the deer mark
     var STAGES = 6;
-    var ZOOM = 28;       // how far the camera travels between two scenes
+    var ZOOM = 18;       // how far the camera travels between two scenes
 
     /* ---------- helpers ---------- */
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -471,65 +486,16 @@
       var x = r * Math.sin(ph) * Math.cos(th), y = r * Math.sin(ph) * Math.sin(th), z = r * Math.cos(ph);
       var k = clamp(r / 1.9, 0, 1), cr, cg, cb;
       cr = cg = cb = lerp(255, 80, Math.pow(k, 0.7));
-      set(o, x, y, z, 0.6 + p.d * 1.8, 0.35 + (1 - k) * 0.65, cr, cg, cb, 0);
+      set(o, x, y, z, 0.5 + p.d * 1.4, (0.35 + (1 - k) * 0.65) * 0.55, cr, cg, cb, 0);
       rotY(o, t * 0.05); rotX(o, 0.3);
     }
 
-    var NUC = [];
-    for (var q = 0; q < 14; q++) {
-      var qt = rand(q + 9001) * Math.PI * 2, qp = Math.acos(2 * rand(q + 9101) - 1), qr = Math.cbrt(rand(q + 9201)) * 0.11;
-      NUC.push([qr * Math.sin(qp) * Math.cos(qt), qr * Math.sin(qp) * Math.sin(qt), qr * Math.cos(qp)]);
-    }
-
-    function stageAtom(p, i, t, o) {
-      if (p.a < 0.2) { // nucleus
-        var k = Math.floor(p.b * NUC.length), n = NUC[k];
-        var th = p.c * Math.PI * 2, ph = Math.acos(2 * p.d - 1), r = Math.cbrt(p.e) * 0.045;
-        var proton = k % 2 === 0;
-        set(o, n[0] + r * Math.sin(ph) * Math.cos(th), n[1] + r * Math.sin(ph) * Math.sin(th), n[2] + r * Math.cos(ph),
-          1.1 + p.e, 0.9, proton ? 255 : 130, proton ? 255 : 130, proton ? 255 : 130, 0);
-        rotY(o, t * 0.4);
-        return;
-      }
-      var orbit = Math.floor(p.b * 3), R = 0.78;
-      var electron = p.d < 0.012;
-      var ang = p.c * Math.PI * 2 + t * (electron ? 1.6 : 0.25) * (orbit % 2 ? -1 : 1);
-      var jit = electron ? 0 : (p.e - 0.5) * 0.05;
-      set(o, Math.cos(ang) * (R + jit), Math.sin(ang) * (R + jit) * 0.34, (p.e - 0.5) * 0.02,
-        electron ? 3.2 : 0.7, electron ? 1 : 0.28, electron ? 255 : 170, electron ? 255 : 170, electron ? 255 : 170, 0);
-      // tilt each orbit plane
-      var tilt = orbit * Math.PI / 3;
-      var c = Math.cos(tilt), s = Math.sin(tilt), x = o[0], y = o[1];
-      o[0] = x * c - y * s; o[1] = x * s + y * c;
-      rotX(o, 0.35); rotY(o, t * 0.18);
-    }
-
-    function stageDNA(p, i, t, o) {
-      var turns = 2.6, R = 0.34, len = wide ? 1.85 : 2.3;
-      var kind = p.a < 0.38 ? 0 : p.a < 0.76 ? 1 : 2;
-      var u, phi;
-      if (kind < 2) {
-        u = p.b;
-        phi = u * turns * Math.PI * 2 + t * 0.55 + (kind ? Math.PI : 0);
-        var th = (p.c - 0.5) * 0.04;
-        set(o, Math.cos(phi) * (R + th), (u - 0.5) * len, Math.sin(phi) * (R + th),
-          1 + p.d * 0.8, 0.85, kind ? 175 : 255, kind ? 175 : 255, kind ? 175 : 255, 0);
-      } else {
-        var rungs = 28, m = Math.floor(p.b * rungs);
-        u = (m + 0.5) / rungs;
-        phi = u * turns * Math.PI * 2 + t * 0.55;
-        var f = p.c * 2 - 1; // -1..1 across the rung
-        var side = f < 0;
-        var gc = rand(m + 777) < 0.5;
-        var cr = gc ? (side ? 230 : 140) : (side ? 110 : 190);
-        var cg = cr, cb = cr;
-        set(o, Math.cos(phi) * R * f, (u - 0.5) * len, Math.sin(phi) * R * f, 0.9, 0.7, cr, cg, cb, 0);
-      }
-      rotX(o, 0.25);
-      if (wide) { // lean the helix a little on wide screens
-        var c = Math.cos(-0.35), s = Math.sin(-0.35), x = o[0], y = o[1];
-        o[0] = x * c - y * s; o[1] = x * s + y * c;
-      }
+    // Atom and DNA are photographs; particles become drifting dust in front of them
+    function stageDust(p, i, t, o) {
+      var x = (p.a - 0.5) * 4.4, y = (p.b - 0.5) * 3, z = p.c * 2.4 - 0.8;
+      var tw = 0.5 + 0.5 * Math.sin(t * (0.4 + p.d) + p.e * 20);
+      set(o, x + Math.sin(t * 0.1 + p.e * 6) * 0.03, y - ((t * 0.01 * (0.5 + p.d)) % 0.2), z,
+        0.45 + p.d * 0.9, (p.e < 0.35 ? 0.5 : 0) * (0.35 + 0.65 * tw), 255, 255, 255, 0);
     }
 
     function stageBits(p, i, t, o) {
@@ -554,7 +520,68 @@
       rotY(o, Math.sin(t * 0.3) * 0.18);
     }
 
-    var STAGE_FN = [stageVoid, stageBang, stageAtom, stageDNA, stageBits, stageLogo];
+    var STAGE_FN = [stageVoid, stageBang, stageDust, stageDust, stageBits, stageLogo];
+
+    /* ---------- photographic scenes ---------- */
+    var SCENE_SRC = [null, "assets/scenes/big-bang.jpg", "assets/scenes/atom.jpg", "assets/scenes/dna.jpg", null, null];
+    var SCENE_EDGE = [0, 0.72, 0.55, 0.5, 0, 0];   // where the soft vignette starts
+    var sceneImg = [];
+
+    function loadScenes() {
+      SCENE_SRC.forEach(function (src, k) {
+        if (!src) return;
+        var img = new Image();
+        img.onload = function () {
+          // bake a soft elliptical fade so the photo melts into the black page
+          var c = document.createElement("canvas");
+          c.width = img.width; c.height = img.height;
+          var g = c.getContext("2d");
+          g.drawImage(img, 0, 0);
+          g.globalCompositeOperation = "destination-in";
+          g.save();
+          g.translate(c.width / 2, c.height / 2);
+          g.scale(c.width / 2, c.height / 2);
+          var rg = g.createRadialGradient(0, 0, 0, 0, 0, 1);
+          rg.addColorStop(0, "#000");
+          rg.addColorStop(SCENE_EDGE[k], "#000");
+          rg.addColorStop(1, "rgba(0,0,0,0)");
+          g.fillStyle = rg;
+          g.fillRect(-1, -1, 2, 2);
+          g.restore();
+          sceneImg[k] = c;
+        };
+        img.src = src;
+      });
+    }
+
+    function drawScene(k, zoom, alpha, cx, cy, S) {
+      var img = sceneImg[k];
+      if (!img || alpha < 0.01) return;
+      var iw = img.width, ih = img.height;
+      var h = k === 1 ? (wide ? Math.max(W / iw, H / ih) * ih * 1.08 : S * 2.4) : S * 2.6;
+      h *= zoom * (1 + 0.015 * Math.sin(t * 0.5));
+      var w = h * iw / ih;
+      if (w > W * 60) return;
+      var ox = 0, oy = 0, rot = 0;
+      if (k === 1) rot = t * 0.008;
+      if (k === 2) rot = t * 0.04;
+      if (k === 3) { var d = Math.sin(t * 0.25) * 0.03 * h; ox = d * 0.9; oy = -d * 0.42; }
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(cx + ox, cy + oy);
+      if (rot) ctx.rotate(rot);
+      ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      ctx.restore();
+      if (k === 2) { // the nucleus breathes
+        var r = h * 0.12, pulse = 0.1 + 0.07 * Math.sin(t * 2);
+        var ng = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+        ng.addColorStop(0, "rgba(255,255,255," + (pulse * alpha) + ")");
+        ng.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = ng;
+        ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+      }
+    }
 
     // where the shape sits on screen per stage
     function layout(k) {
@@ -579,6 +606,7 @@
     }
 
     function updateUI(s) {
+      veil.style.opacity = smooth(1.3, 1.9, s).toFixed(3);
       var cur = Math.round(s);
       for (var i = 0; i < navLinks.length; i++) {
         navLinks[i].classList.toggle("on", i === cur);
@@ -680,7 +708,8 @@
 
       var i, p;
       if (isBang) {
-        // the point explodes: particles fly from the centre to their places
+        // the point explodes: the photo blooms out of the point, particles fly outwards
+        drawScene(1, lerp(0.15, 1, easeOutExpo(m)), smooth(0.02, 0.35, m), cx, cy, S);
         for (i = 0; i < N; i++) {
           p = P[i];
           var local = easeOutExpo(clamp(m * 1.15 - p.d * 0.05, 0, 1));
@@ -698,6 +727,9 @@
         if (viewS >= STAGES - 1) depth = STAGES - 1;
         var zA = Math.pow(ZOOM, depth - k), zB = Math.pow(ZOOM, depth - k - 1);
         var aA = 1 - smooth(0.55, 0.95, m), aB = smooth(0.05, 0.55, m);
+        // photos hand over earlier than dust so a zoomed-in photo never washes the screen grey
+        drawScene(k, zA, 1 - smooth(0.3, 0.72, m), cx, cy, S);
+        drawScene(k + 1, zB, smooth(0.2, 0.7, m), cx, cy, S);
         for (i = 0; i < N; i++) {
           p = P[i];
           if (aA > 0.01) { A(p, i, t, out0); draw(out0, p, zA, aA); }
@@ -730,6 +762,7 @@
 
     resize();
     loadLogo();
+    loadScenes();
     readScroll();
     viewS = scrollS;
     requestAnimationFrame(frame);
