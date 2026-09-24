@@ -1,6 +1,9 @@
 # ykg.digital
 
-YKG Digital — yapım aşamasında (statik sayfa).
+YKG Digital — scroll ile ilerleyen tek sayfalık hikâye: Hiçlik → Big Bang → Atom → DNA → Bit → YKG.
+
+Tüm animasyon `index.html` içindeki canvas parçacık sisteminde; dış bağımlılık yok.
+Son sahnedeki geyik, `assets/mark-deer.png` dosyasından örneklenir (yerelde `file://` ile değil, HTTP sunucusuyla açın).
 
 ## Yerel önizleme
 
