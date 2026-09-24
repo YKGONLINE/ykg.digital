@@ -202,6 +202,17 @@
       text-wrap: pretty;
     }
 
+    /* the first words surface slowly out of the dark */
+    #hiclik .copy > * { animation: surface 2.4s ease both; }
+    #hiclik .kicker { animation-delay: 1s; }
+    #hiclik h1 { animation-delay: 1.6s; }
+    #hiclik .body { animation-delay: 2.4s; }
+    #hiclik .hint { animation-delay: 3.6s; }
+    @keyframes surface {
+      from { opacity: 0; filter: blur(6px); transform: translateY(8px); }
+      to { opacity: 1; filter: none; transform: none; }
+    }
+
     .hint {
       margin-top: 2rem;
       display: inline-flex;
@@ -265,6 +276,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .hint i { animation: none; }
+      #hiclik .copy > * { animation: none; }
       .cta { transition: none; }
     }
   </style>
@@ -282,6 +294,7 @@
   <nav aria-label="Bölümler">
     <ul class="chapters" id="chapters">
       <li><a href="#hiclik"><span>Hiçlik</span></a></li>
+      <li><a href="#kivilcim"><span>Kıvılcım</span></a></li>
       <li><a href="#big-bang"><span>Big Bang</span></a></li>
       <li><a href="#atom"><span>Atom</span></a></li>
       <li><a href="#dna"><span>DNA</span></a></li>
@@ -293,24 +306,32 @@
   <main>
     <section class="chapter center" id="hiclik">
       <div class="stick"><div class="copy">
-        <p class="kicker"><b>00</b> · t = 0</p>
+        <p class="kicker"><b>00</b> · Zamandan önce</p>
         <h1>Hiçlik.</h1>
-        <p class="body">Ne zaman vardı, ne mekân. Ne ışık, ne ses. Sadece bir ihtimal.</p>
-        <p class="hint" aria-hidden="true">Yaklaşmak için kaydır<i></i></p>
+        <p class="body">Ne zaman vardı, ne mekân. Ne ışık, ne ses.</p>
+        <p class="hint" aria-hidden="true">Kaydır<i></i></p>
+      </div></div>
+    </section>
+
+    <section class="chapter center" id="kivilcim">
+      <div class="stick"><div class="copy">
+        <p class="kicker"><b>01</b> · 10⁻⁴³ saniye</p>
+        <h2>Kıvılcım.</h2>
+        <p class="body">Sonra, karanlığın ortasında tek bir nokta. Sonsuz yoğun, sonsuz sıcak. Her şey onun içinde.</p>
       </div></div>
     </section>
 
     <section class="chapter center" id="big-bang">
       <div class="stick"><div class="copy">
-        <p class="kicker"><b>01</b> · 13,8 milyar yıl önce</p>
+        <p class="kicker"><b>02</b> · 13,8 milyar yıl önce</p>
         <h2>Büyük Patlama.</h2>
-        <p class="body">O tek nokta bir anda genişledi. Enerji, ışık ve ilk parçacıklar her yöne saçıldı. Evren başladı.</p>
+        <p class="body">Nokta bir anda açıldı. Işık ve madde kanat gibi iki yana yayıldı. Evren doğdu.</p>
       </div></div>
     </section>
 
     <section class="chapter" id="atom">
       <div class="stick"><div class="copy">
-        <p class="kicker"><b>02</b> · ~380.000 yıl sonra</p>
+        <p class="kicker"><b>03</b> · ~380.000 yıl sonra</p>
         <h2>Atom.</h2>
         <p class="body">Evren soğudukça parçacıklar birbirini buldu. Proton, nötron, elektron: her şeyin yapı taşları.</p>
       </div></div>
@@ -318,7 +339,7 @@
 
     <section class="chapter" id="dna">
       <div class="stick"><div class="copy">
-        <p class="kicker"><b>03</b> · ~3,8 milyar yıl önce</p>
+        <p class="kicker"><b>04</b> · ~3,8 milyar yıl önce</p>
         <h2>DNA.</h2>
         <p class="body">Atomlar molekülleri, moleküller hayatın dilini kurdu. Dört harfle yazılmış bir kod: A, T, G, C.</p>
       </div></div>
@@ -326,7 +347,7 @@
 
     <section class="chapter" id="bit">
       <div class="stick"><div class="copy">
-        <p class="kicker"><b>04</b> · 1948</p>
+        <p class="kicker"><b>05</b> · 1948</p>
         <h2>Bit.</h2>
         <p class="body">Sonra biz kendi kodumuzu yazdık. Sıfır ve bir: fikirlerin, hikâyelerin ve ürünlerin yeni yapı taşı.</p>
       </div></div>
@@ -334,7 +355,7 @@
 
     <section class="chapter" id="ykg">
       <div class="stick"><div class="copy">
-        <p class="kicker"><b>05</b> · Bugün</p>
+        <p class="kicker"><b>06</b> · Bugün</p>
         <h2>YKG Digital.</h2>
         <p class="body">Hiçlikten bite, bitten ürüne. Fikirleri tasarlıyor, kodluyor ve dijital ürünlere dönüştürüyoruz.</p>
         <div class="cta-row">
@@ -366,18 +387,22 @@
     var veil = document.querySelector(".veil");
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // 0 karanlık · 1 kıvılcım · 2 patlama · 3 atom · 4 dna · 5 bit · 6 ykg
+    var STAGES = 7;
+    var BANG = 2, ATOM = 3, DNA = 4, LOGO = 6;
+    var ZOOM = 18;       // how far the camera travels between two scenes
+
     var W = 0, H = 0, DPR = 1, wide = false;
     var N = 0;
     var P = [];          // particles
     var logoPts = null;  // sampled points from the deer mark
-    var STAGES = 6;
-    var ZOOM = 18;       // how far the camera travels between two scenes
 
     /* ---------- helpers ---------- */
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
     function lerp(a, b, t) { return a + (b - a) * t; }
     function smooth(a, b, v) { var t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); }
     function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
     function easeOutExpo(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
     function rand(seed) { // deterministic 0..1
       var x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
@@ -402,10 +427,7 @@
       N = n;
       P = [];
       for (var i = 0; i < N; i++) {
-        P.push({
-          a: rand(i + 1), b: rand(i + 1001), c: rand(i + 2003), d: rand(i + 3007), e: rand(i + 4013),
-          x: 0, y: 0, z: 0
-        });
+        P.push({ a: rand(i + 1), b: rand(i + 1001), c: rand(i + 2003), d: rand(i + 3007), e: rand(i + 4013) });
       }
       assignLogo();
     }
@@ -424,13 +446,11 @@
           var pts = [];
           for (var y = 0; y < sh; y++) {
             for (var x = 0; x < sw; x++) {
-              if (data[(y * sw + x) * 4 + 3] > 140) {
-                pts.push([(x / sw - 0.5) * (sw / sh), y / sh - 0.5]);
-              }
+              if (data[(y * sw + x) * 4 + 3] > 140) pts.push([(x / sw - 0.5) * (sw / sh), y / sh - 0.5]);
             }
           }
           if (pts.length > 50) { logoPts = pts; assignLogo(); }
-        } catch (err) { /* tainted canvas (file://) — fall back to sphere */ }
+        } catch (err) { /* tainted canvas (file://) — fall back to a disc */ }
       };
       img.src = "assets/mark-deer.png";
     }
@@ -449,15 +469,14 @@
       }
     }
 
-    /* ---------- stages ----------
-       Each returns position in "shape space" (unit ≈ S px), plus look.
-       out: [x, y, z, size, alpha, r, g, b, glyph(0..1)] */
+    /* ---------- particle stages ----------
+       Each writes a position in "shape space" (unit ≈ S px) plus its look:
+       out = [x, y, z, size, alpha, r, g, b, glyph(0..1)] */
     var out0 = new Float32Array(9), out1 = new Float32Array(9);
 
     function set(o, x, y, z, s, al, r, g, b, gl) {
       o[0] = x; o[1] = y; o[2] = z; o[3] = s; o[4] = al; o[5] = r; o[6] = g; o[7] = b; o[8] = gl;
     }
-
     function rotY(o, ang) {
       var c = Math.cos(ang), s = Math.sin(ang), x = o[0], z = o[2];
       o[0] = x * c + z * s; o[2] = -x * s + z * c;
@@ -467,30 +486,37 @@
       o[1] = y * c - z * s; o[2] = y * s + z * c;
     }
 
-    function stageVoid(p, i, t, o) {
+    // absolute darkness: nothing is drawn
+    function stageVoid(p, i, t, o) { set(o, 0, 0, 0, 0.5, 0, 255, 255, 255, 0); }
+
+    // a single point is born; the emptiness around it falls inwards
+    function stageSpark(p, i, t, o) {
       if (i === 0) {
-        var pulse = 0.55 + 0.45 * Math.sin(t * 1.6);
-        set(o, 0, 0, 0, 2.2 + pulse * 1.2, 0.7 + 0.3 * pulse, 255, 255, 255, 0);
-      } else if (i < 60) {
-        // quantum foam: faint flickers around the point
-        var fl = Math.max(0, Math.sin(t * (0.6 + p.a * 1.4) + p.b * 40));
-        set(o, (p.c - 0.5) * 0.5, (p.d - 0.5) * 0.5, 0, 0.8, Math.pow(fl, 8) * 0.35, 210, 210, 210, 0);
-      } else {
-        set(o, 0, 0, 0, 0.5, 0, 255, 255, 255, 0);
+        var pulse = 0.5 + 0.5 * Math.sin(t * 2.2);
+        set(o, 0, 0, 0, 1.8 + pulse * 1.4, 0.85 + 0.15 * pulse, 255, 255, 255, 0);
+        return;
       }
+      if (p.e > 0.45) { set(o, 0, 0, 0, 0.5, 0, 255, 255, 255, 0); return; }
+      var ph = (t * 0.1 * (0.6 + p.d) + p.a) % 1;        // 0 far away → 1 swallowed
+      var r = Math.pow(1 - ph, 1.6) * 1.5;
+      var ang = p.b * Math.PI * 2 + ph * 1.4;            // slight spiral
+      set(o, Math.cos(ang) * r, Math.sin(ang) * r * 0.85, (p.c - 0.5) * 0.3,
+        0.4 + p.d * 0.6, Math.pow(ph, 2.2) * 0.55, 255, 255, 255, 0);
     }
 
+    // butterfly: two lobes of light thrown left and right
     function stageBang(p, i, t, o) {
-      var th = p.a * Math.PI * 2, ph = Math.acos(2 * p.b - 1);
-      var r = Math.pow(p.c, 0.55) * 1.9;
-      var x = r * Math.sin(ph) * Math.cos(th), y = r * Math.sin(ph) * Math.sin(th), z = r * Math.cos(ph);
-      var k = clamp(r / 1.9, 0, 1), cr, cg, cb;
-      cr = cg = cb = lerp(255, 80, Math.pow(k, 0.7));
-      set(o, x, y, z, 0.5 + p.d * 1.4, (0.35 + (1 - k) * 0.65) * 0.55, cr, cg, cb, 0);
-      rotY(o, t * 0.05); rotX(o, 0.3);
+      var side = p.a < 0.5 ? -1 : 1;
+      var r = Math.pow(p.c, 0.75) * 1.5;
+      var spread = (p.b - 0.5) * 2;
+      var lift = Math.min(1, r / 0.8);
+      var x = side * r * (1 + 0.015 * Math.sin(t * 0.4));
+      var y = spread * r * 0.5 * lift - r * 0.14 * lift;
+      var k = clamp(r / 1.5, 0, 1);
+      set(o, x, y, (p.d - 0.5) * 0.5, 0.45 + p.e * 1.1, (0.12 + (1 - k) * 0.4), lerp(255, 150, k), lerp(255, 150, k), lerp(255, 150, k), 0);
     }
 
-    // Atom and DNA are photographs; particles become drifting dust in front of them
+    // photos carry atom and DNA; particles become dust drifting in front of them
     function stageDust(p, i, t, o) {
       var x = (p.a - 0.5) * 4.4, y = (p.b - 0.5) * 3, z = p.c * 2.4 - 0.8;
       var tw = 0.5 + 0.5 * Math.sin(t * (0.4 + p.d) + p.e * 20);
@@ -507,25 +533,28 @@
       var head = (t * (0.18 + rand(cx + 55) * 0.2) + rand(cx + 99)) % 1;
       var dist = ((cy / rows) - head + 1) % 1;
       var glow = Math.pow(1 - dist, 10);
-      var al = 0.18 + glow * 0.82;
       var hot = glow > 0.6;
-      set(o, x, y, z, 1, al, hot ? 255 : 150, hot ? 255 : 150, hot ? 255 : 150, 1);
+      set(o, x, y, z, 1, 0.18 + glow * 0.82, hot ? 255 : 150, hot ? 255 : 150, hot ? 255 : 150, 1);
       rotX(o, -0.25); rotY(o, Math.sin(t * 0.2) * 0.25 + (wide ? -0.3 : 0));
     }
 
     function stageLogo(p, i, t, o) {
-      var sc = 1.9;
       var tw = 0.75 + 0.25 * Math.sin(t * 1.3 + p.a * 30);
-      set(o, p.lx * sc, p.ly * sc, (p.d - 0.5) * 0.04, 0.9 + p.c * 0.7, tw, 242, 242, 242, 0);
+      set(o, p.lx * 1.9, p.ly * 1.9, (p.d - 0.5) * 0.04, 0.9 + p.c * 0.7, tw, 242, 242, 242, 0);
       rotY(o, Math.sin(t * 0.3) * 0.18);
     }
 
-    var STAGE_FN = [stageVoid, stageBang, stageDust, stageDust, stageBits, stageLogo];
+    var STAGE_FN = [stageVoid, stageSpark, stageBang, stageDust, stageDust, stageBits, stageLogo];
 
     /* ---------- photographic scenes ---------- */
-    var SCENE_SRC = [null, "assets/scenes/big-bang.jpg", "assets/scenes/atom.jpg", "assets/scenes/dna.jpg", null, null];
-    var SCENE_EDGE = [0, 0.72, 0.55, 0.5, 0, 0];   // where the soft vignette starts
+    var SCENE_SRC = [];
+    SCENE_SRC[BANG] = "assets/scenes/big-bang.jpg";
+    SCENE_SRC[ATOM] = "assets/scenes/atom.jpg";
+    SCENE_SRC[DNA] = "assets/scenes/dna.jpg";
+    var SCENE_EDGE = [];                 // where the soft vignette starts
+    SCENE_EDGE[BANG] = 0.7; SCENE_EDGE[ATOM] = 0.55; SCENE_EDGE[DNA] = 0.5;
     var sceneImg = [];
+    var revealCv = document.createElement("canvas"), revealCtx = revealCv.getContext("2d");
 
     function loadScenes() {
       SCENE_SRC.forEach(function (src, k) {
@@ -538,7 +567,6 @@
           var g = c.getContext("2d");
           g.drawImage(img, 0, 0);
           g.globalCompositeOperation = "destination-in";
-          g.save();
           g.translate(c.width / 2, c.height / 2);
           g.scale(c.width / 2, c.height / 2);
           var rg = g.createRadialGradient(0, 0, 0, 0, 0, 1);
@@ -547,33 +575,57 @@
           rg.addColorStop(1, "rgba(0,0,0,0)");
           g.fillStyle = rg;
           g.fillRect(-1, -1, 2, 2);
-          g.restore();
           sceneImg[k] = c;
         };
         img.src = src;
       });
     }
 
-    function drawScene(k, zoom, alpha, cx, cy, S) {
+    // wings open from a thin line of light to full span; 1 = fully open
+    function revealed(img, reveal) {
+      if (reveal >= 0.999) return img;
+      var rw = 1280, rh = Math.round(1280 * img.height / img.width);
+      if (revealCv.width !== rw) { revealCv.width = rw; revealCv.height = rh; }
+      var g = revealCtx;
+      g.globalCompositeOperation = "copy";
+      g.drawImage(img, 0, 0, rw, rh);
+      g.globalCompositeOperation = "destination-in";
+      var rx = lerp(0.02, 1.15, easeOutCubic(reveal)) * rw / 2;
+      var ry = lerp(0.012, 1.15, Math.pow(smooth(0.1, 1, reveal), 1.3)) * rh / 2;
+      g.save();
+      g.translate(rw / 2, rh / 2);
+      g.scale(rx, ry);
+      var rg = g.createRadialGradient(0, 0, 0, 0, 0, 1);
+      rg.addColorStop(0, "#000");
+      rg.addColorStop(0.55, "#000");
+      rg.addColorStop(1, "rgba(0,0,0,0)");
+      g.fillStyle = rg;
+      g.fillRect(-1, -1, 2, 2);
+      g.restore();
+      return revealCv;
+    }
+
+    function drawScene(k, zoom, alpha, cx, cy, S, reveal) {
       var img = sceneImg[k];
       if (!img || alpha < 0.01) return;
       var iw = img.width, ih = img.height;
-      var h = k === 1 ? (wide ? Math.max(W / iw, H / ih) * ih * 1.08 : S * 2.4) : S * 2.6;
+      var h;
+      if (k === BANG) h = wide ? Math.max(W / iw, H / ih) * ih : (W * 1.35) * ih / iw;
+      else h = S * (k === ATOM ? 3.4 : 2.8);
       h *= zoom * (1 + 0.015 * Math.sin(t * 0.5));
       var w = h * iw / ih;
       if (w > W * 60) return;
       var ox = 0, oy = 0, rot = 0;
-      if (k === 1) rot = t * 0.008;
-      if (k === 2) rot = t * 0.04;
-      if (k === 3) { var d = Math.sin(t * 0.25) * 0.03 * h; ox = d * 0.9; oy = -d * 0.42; }
+      if (k === ATOM) rot = t * 0.03;
+      if (k === DNA) { var d = Math.sin(t * 0.25) * 0.03 * h; ox = d * 0.9; oy = -d * 0.42; }
       ctx.save();
       ctx.globalAlpha = alpha;
       ctx.translate(cx + ox, cy + oy);
       if (rot) ctx.rotate(rot);
-      ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      ctx.drawImage(k === BANG ? revealed(img, reveal === undefined ? 1 : reveal) : img, -w / 2, -h / 2, w, h);
       ctx.restore();
-      if (k === 2) { // the nucleus breathes
-        var r = h * 0.12, pulse = 0.1 + 0.07 * Math.sin(t * 2);
+      if (k === ATOM) { // the nucleus breathes
+        var r = h * 0.1, pulse = 0.08 + 0.06 * Math.sin(t * 2);
         var ng = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
         ng.addColorStop(0, "rgba(255,255,255," + (pulse * alpha) + ")");
         ng.addColorStop(1, "rgba(255,255,255,0)");
@@ -583,18 +635,29 @@
       }
     }
 
-    // where the shape sits on screen per stage
+    function glowAt(cx, cy, r, a) {
+      if (a < 0.005) return;
+      var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      g.addColorStop(0, "rgba(255,255,255," + a + ")");
+      g.addColorStop(0.35, "rgba(220,220,220," + (a * 0.35) + ")");
+      g.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = g;
+      ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+    }
+
+    // where the scene sits on screen
     function layout(k) {
       if (!wide) {
-        if (k === 5) return [W * 0.5, H * 0.26, Math.min(W * 0.4, H * 0.19)];
-        return [W * 0.5, H * (k <= 1 ? 0.4 : 0.36), Math.min(W * 0.44, H * 0.3)];
+        if (k === LOGO) return [W * 0.5, H * 0.26, Math.min(W * 0.4, H * 0.19)];
+        return [W * 0.5, H * (k <= BANG ? 0.4 : 0.36), Math.min(W * 0.44, H * 0.3)];
       }
-      if (k <= 1) return [W * 0.5, H * 0.42, Math.min(W * 0.3, H * 0.36)];
+      if (k <= BANG) return [W * 0.5, H * 0.42, Math.min(W * 0.3, H * 0.36)];
       return [W * 0.63, H * 0.5, Math.min(W * 0.28, H * 0.4)];
     }
 
     /* ---------- scroll ---------- */
-    var scrollS = 0;   // target stage position from scroll (0..5)
+    var scrollS = 0;   // target stage position from scroll (0..STAGES-1)
     var viewS = 0;     // smoothed
 
     function readScroll() {
@@ -606,7 +669,7 @@
     }
 
     function updateUI(s) {
-      veil.style.opacity = smooth(1.3, 1.9, s).toFixed(3);
+      veil.style.opacity = smooth(BANG + 0.3, BANG + 0.9, s).toFixed(3);
       var cur = Math.round(s);
       for (var i = 0; i < navLinks.length; i++) {
         navLinks[i].classList.toggle("on", i === cur);
@@ -648,32 +711,21 @@
 
       var k = Math.min(Math.floor(viewS), STAGES - 2);
       var f = viewS - k;
-      // hold the shape while its text is pinned, morph as the next chapter scrolls in
+      // hold the scene while its text is pinned, move on as the next chapter scrolls in
       var m = smooth(0.4, 1.0, f);
-      if (viewS >= STAGES - 1) { k = STAGES - 2; m = 1; }
+      if (viewS >= STAGES - 1) { k = STAGES - 2; f = 1; m = 1; }
 
       var L0 = layout(k), L1 = layout(k + 1);
       var gm = easeInOut(m);
       var cx = lerp(L0[0], L1[0], gm), cy = lerp(L0[1], L1[1], gm), S = lerp(L0[2], L1[2], gm);
 
       ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
       ctx.fillStyle = "#050505";
       ctx.fillRect(0, 0, W, H);
-
-      // ambient glow per stage
-      var bangAmt = (k === 0 ? m : k === 1 ? 1 - m : 0);
-      if (bangAmt > 0.01) {
-        var gr = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.7);
-        gr.addColorStop(0, "rgba(255,255,255," + (0.09 * bangAmt) + ")");
-        gr.addColorStop(0.4, "rgba(140,140,140," + (0.04 * bangAmt) + ")");
-        gr.addColorStop(1, "rgba(5,5,5,0)");
-        ctx.fillStyle = gr;
-        ctx.fillRect(0, 0, W, H);
-      }
-
       ctx.globalCompositeOperation = "lighter";
+
       var A = STAGE_FN[k], B = STAGE_FN[k + 1];
-      var isBang = k === 0;
       var glyphPx = Math.max(8, Math.min(13, S * 0.035));
       var gz = [glyph("0", glyphPx, "#9a9a9a"), glyph("1", glyphPx, "#9a9a9a")];
       var gh = [glyph("0", glyphPx, "#ffffff"), glyph("1", glyphPx, "#ffffff")];
@@ -706,49 +758,46 @@
         }
       }
 
-      var i, p;
-      if (isBang) {
-        // the point explodes: the photo blooms out of the point, particles fly outwards
-        drawScene(1, lerp(0.15, 1, easeOutExpo(m)), smooth(0.02, 0.35, m), cx, cy, S);
+      var i, p, j, local;
+      if (k === 0) {
+        // darkness → a point of light is born
+        glowAt(cx, cy, 70, 0.12 * m * (0.7 + 0.3 * Math.sin(t * 2.2)));
         for (i = 0; i < N; i++) {
           p = P[i];
-          var local = easeOutExpo(clamp(m * 1.15 - p.d * 0.05, 0, 1));
-          if (local <= 0) { A(p, i, t, out0); }
-          else if (local >= 1) { B(p, i, t, out0); }
-          else {
-            A(p, i, t, out0); B(p, i, t, out1);
-            for (var j = 0; j < 9; j++) out0[j] = lerp(out0[j], out1[j], local);
+          B(p, i, t, out0);
+          draw(out0, p, 1, i === 0 ? smooth(0.2, 0.7, m) : smooth(0.5, 1, m));
+        }
+      } else if (k === 1) {
+        // the point bursts: a flash, then the wings open left and right
+        var burst = smooth(0.03, 0.09, m);
+        glowAt(cx, cy, 70, 0.12 * (1 - burst));
+        drawScene(BANG, 1, smooth(0.04, 0.22, m), cx, cy, S, smooth(0.05, 0.9, m));
+        for (i = 0; i < N; i++) {
+          p = P[i];
+          if (burst < 1) { A(p, i, t, out0); draw(out0, p, 1, 1 - burst); }
+          if (burst > 0) {
+            local = easeOutExpo(clamp((m - 0.05) * 1.25 - p.d * 0.1, 0, 1));
+            B(p, i, t, out1);
+            for (j = 0; j < 3; j++) out1[j] *= local;
+            draw(out1, p, 1, burst);
           }
-          draw(out0, p, 1, 1);
+        }
+        if (!reduceMotion) {
+          var flash = Math.exp(-Math.pow((m - 0.07) / 0.045, 2)) * smooth(0, 0.04, m);
+          glowAt(cx, cy, Math.max(W, H) * (0.25 + m * 1.5), 0.95 * flash);
         }
       } else {
         // camera zoom: the current scene rushes past, the next one grows out of its centre
-        var depth = k + m + 0.15 * (f - m);   // slow drift while holding, fast dive while morphing
-        if (viewS >= STAGES - 1) depth = STAGES - 1;
+        var depth = k + m + 0.15 * (f - m);   // slow drift while holding, fast dive while moving on
         var zA = Math.pow(ZOOM, depth - k), zB = Math.pow(ZOOM, depth - k - 1);
         var aA = 1 - smooth(0.55, 0.95, m), aB = smooth(0.05, 0.55, m);
         // photos hand over earlier than dust so a zoomed-in photo never washes the screen grey
-        drawScene(k, zA, 1 - smooth(0.3, 0.72, m), cx, cy, S);
+        drawScene(k, zA, 1 - smooth(0.25, 0.62, m), cx, cy, S);
         drawScene(k + 1, zB, smooth(0.2, 0.7, m), cx, cy, S);
         for (i = 0; i < N; i++) {
           p = P[i];
           if (aA > 0.01) { A(p, i, t, out0); draw(out0, p, zA, aA); }
           if (aB > 0.01) { B(p, i, t, out1); draw(out1, p, zB, aB); }
-        }
-      }
-
-      // the flash of the big bang
-      if (isBang && !reduceMotion) {
-        var flash = Math.exp(-Math.pow((m - 0.06) / 0.05, 2));
-        if (flash > 0.01) {
-          ctx.globalCompositeOperation = "lighter";
-          ctx.globalAlpha = 1;
-          var fr = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * (0.2 + m * 2));
-          fr.addColorStop(0, "rgba(255,255,255," + (0.95 * flash) + ")");
-          fr.addColorStop(0.3, "rgba(200,200,200," + (0.35 * flash) + ")");
-          fr.addColorStop(1, "rgba(255,255,255,0)");
-          ctx.fillStyle = fr;
-          ctx.fillRect(0, 0, W, H);
         }
       }
       ctx.globalAlpha = 1;
